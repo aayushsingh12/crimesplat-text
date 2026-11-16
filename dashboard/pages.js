@@ -182,7 +182,7 @@ window.addEventListener("desk-ready", () => {
 
   // ---------- scene from photos (image pipeline) ----------
   async function renderImage() {
-    const sc = D.SCENES[0], page = $("#page-image");
+    const sc = D.SCENES.find((x) => (x.pipeline || "").startsWith("image")), page = $("#page-image");
     if (!sc) { page.innerHTML = '<div class="wrap"><h1>Scene from photos</h1><div class="lead">No scene is attached to this case yet. Attach a splat with <span class="mono">python -m crimetext scene</span>.</div></div>'; return; }
     if (!$("#img-side")) page.innerHTML = '<div id="img-side"></div><div id="scene-host-b" class="scene-host"></div>';
     $("#scene-host-b").appendChild($("#scene"));
@@ -222,22 +222,46 @@ window.addEventListener("desk-ready", () => {
     $("#pipe-run").onclick = async () => { const out = await post("api/image_pipeline/run", { scene: sc.id }); if (out.error) return setMsg($("#pipe-msg"), out.error); renderImage(); };
   }
 
-  // ---------- scene from video (not integrated yet) ----------
+  // ---------- scene from video (crimesplat-video connector) ----------
+  let videoTimer = null;
   async function renderVideo() {
+    clearTimeout(videoTimer);
     const v = await (await fetch("api/video")).json();
+    const vs = D.SCENES.filter((x) => (x.pipeline || "").startsWith("video"));
     $("#page-video").innerHTML = `<div class="wrap"><h1>Scene from video</h1>
-      <div class="banner" style="border-color:#6b4a12;background:#2a2112;color:#f3d9a6">Not connected yet. Footage added here is stored with its hash and waits. The video pipeline (crimesplat-video) will be wired in as the next step.</div>
-      <div class="lead">Body-camera, phone walk-through or drone footage of a scene becomes a 3D reconstruction with the camera path on the timeline, so that any surface can be traced back to the frames that saw it.</div>
+      <div class="lead">Body-camera, phone walk-through or drone footage of a place becomes a 3D scene of the case. The work is done by the video pipeline in <span class="mono">${esc(v.repo)}</span>; this page stores the footage, starts the pipeline on it and imports the result.</div>
+      <h2>Video pipeline on this machine</h2>
+      ${v.requirements.map((r) => `<div class="req ${r.ok ? "ok" : "no"}"><i>${r.ok ? "✓" : "✕"}</i><div>${esc(r.name)}<div class="d">${esc(r.detail)}</div></div></div>`).join("")}
       <h2>Add footage</h2><div class="cards"><div class="card"><div class="drop" id="vd-drop"><b>Drop files here or click to choose</b></div><input type="file" id="vd-file" accept="video/*" hidden>
-        <p>Use the camera's original file. Slow movement, 1080p or better, some floor in view.</p><div class="btns"><button id="vd-add">Store footage</button></div><div class="msg" id="vd-msg"></div></div>
-        <div class="card"><h3>What the pipeline will do</h3><ol class="why"><li>Hash and probe the file</li><li>Pick the sharpest frame in each time bin</li><li>Mask people so they do not ghost into the room</li><li>Recover camera poses (COLMAP)</li><li>Find floor, up direction and, where possible, metric scale</li><li>Train the splat (gsplat, capped for small GPUs)</li><li>Package: splat, camera path, thumbnails, hashes</li></ol></div></div>
-      <h2>Footage on file (${v.files.length})</h2>${v.files.length ? `<table class="t"><tr><th>File</th><th>Size</th><th>State</th></tr>${v.files.map((f) => `<tr><td>${esc(f.file)}</td><td>${kb(f.bytes)}</td><td><span class="pill wait">stored, waiting for the video pipeline</span></td></tr>`).join("")}</table>` : '<div class="lead">None yet.</div>'}</div>`;
+        <p>Use the camera's original file. Slow movement, 1080p or better, some floor in view. A single fixed camera cannot be reconstructed.</p><div class="btns"><button id="vd-add">Store footage</button></div><div class="msg" id="vd-msg"></div></div>
+        <div class="card"><h3>What the pipeline does</h3><ol class="why">${v.stages.map((x) => `<li>${esc(x)}</li>`).join("")}</ol><p>Compute profile for this machine: <b>${esc(v.profile)}</b>.</p></div></div>
+      <h2>Footage on file (${v.files.length})</h2>
+      ${v.files.length ? `<table class="t"><tr><th>File</th><th>Size</th><th>Footage type</th><th>Place it shows</th><th>State</th><th></th></tr>${v.files.map((f, i) => `<tr><td>${esc(f.file)}</td><td>${kb(f.bytes)}</td>
+        <td>${f.scene || f.state === "running" ? esc(f.footage || "") : `<select data-ft="${i}">${v.footage_types.map((t) => `<option${t === (f.footage || "handheld") ? " selected" : ""}>${t}</option>`).join("")}</select>`}</td>
+        <td>${f.scene || f.state === "running" ? esc(f.location || "") : `<input data-loc="${i}" placeholder="Kitchen of the Short residence" value="${esc(f.location || "")}" style="width:240px">`}</td>
+        <td><span class="pill ${f.scene ? "done" : "wait"}">${esc(f.state)}</span></td>
+        <td>${f.scene ? `<a data-open="${esc(f.scene)}" style="cursor:pointer">open scene</a>` : f.state === "running" ? "" : `<button data-run="${i}" ${v.ready ? "" : "disabled"}>${f.state === "failed" ? "Retry" : "Reconstruct"}</button>`}</td></tr>
+        ${f.log_tail ? `<tr><td colspan="6"><pre class="log">${esc(f.log_tail)}</pre></td></tr>` : ""}`).join("")}</table>` : '<div class="lead">None yet.</div>'}
+      <div class="msg" id="vr-msg"></div>
+      <h2>Scenes from video in this case (${vs.length})</h2>
+      ${vs.length ? `<table class="t"><tr><th>Scene</th><th>Shows</th><th>Units</th><th>Held-out PSNR</th><th>Pins</th><th></th></tr>${vs.map((sc) => `<tr><td><b>${esc(sc.title)}</b><div class="meta">${esc(sc.note)}</div></td><td>${esc(sc.location)}</td><td>${esc(sc.units)}</td><td>${sc.quality?.psnr_holdout ?? "–"}</td><td>${sc.anchors.length}</td><td><a data-open="${esc(sc.id)}" style="cursor:pointer">open</a></td></tr>`).join("")}</table>` : '<div class="lead">None yet.</div>'}</div>`;
     dropzone($("#vd-drop"), $("#vd-file"));
     $("#vd-add").onclick = async () => {
       const f = $("#vd-file").files[0], m = $("#vd-msg"); if (!f) return setMsg(m, "Choose a file first.");
       m.textContent = "Storing…"; const out = await post("api/upload?" + new URLSearchParams({ kind: "video", name: f.name }), f, true);
       if (out.error) return setMsg(m, out.error); renderVideo();
     };
+    $("#page-video").onclick = async (e) => {
+      const open = e.target.dataset.open, run = e.target.dataset.run;
+      if (open) { if (!D.SCENES.some((x) => x.id === open)) return location.reload(); nav("investigate"); return D.openScene(open); }
+      if (run == null) return;
+      const f = v.files[+run];
+      const out = await post("api/video/run", { file: f.file, footage: $(`[data-ft="${run}"]`).value, location: $(`[data-loc="${run}"]`).value });
+      if (out.error) return setMsg($("#vr-msg"), out.error);
+      renderVideo();
+    };
+    if (v.files.some((f) => f.state === "running") && $("#page-video").classList.contains("on")) videoTimer = setTimeout(renderVideo, 5000);
+    if (v.files.some((f) => f.scene && !D.SCENES.some((x) => x.id === f.scene))) setMsg($("#vr-msg"), "A new scene was imported. Reload the page to load it into the workspace.", true);
   }
 
   window.addEventListener("hashchange", () => nav(location.hash.slice(1), true));
