@@ -5,26 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Case Desk</title>
 <link rel="stylesheet" href="style.css">
+<script type="importmap">{"imports": {"three": "./vendor/three.module.js", "three/addons/": "./vendor/three-addons/"}}</script>
 </head>
 <body>
 <header id="top">
   <div class="brand">CASE DESK</div>
+  <nav id="nav">
+    <a data-page="home">Intake</a>
+    <a data-page="file">Case file</a>
+    <a data-page="investigate">Investigation</a>
+    <a data-page="image">Scene from photos</a>
+    <a data-page="video">Scene from video</a>
+  </nav>
   <div id="case-title"></div>
-  <div id="stats"></div>
   <div class="spacer"></div>
+  <div id="stats"></div>
   <input id="search" type="search" placeholder="Find a person, place, object…" autocomplete="off">
   <div id="search-results" class="pop hidden"></div>
 </header>
 
+<section id="page-home" class="page scroll"></section>
+<section id="page-file" class="page"></section>
+
+<section id="page-investigate" class="page">
 <main>
   <aside id="left">
     <nav class="tabs" data-for="left">
       <button data-tab="events" class="on">Events</button>
+      <button data-tab="review">Review <span id="review-n"></span></button>
       <button data-tab="sources">Sources</button>
       <button data-tab="photos">Photos</button>
       <button data-tab="entities">Entities</button>
     </nav>
     <div id="tab-events" class="tab on"></div>
+    <div id="tab-review" class="tab"></div>
     <div id="tab-sources" class="tab"></div>
     <div id="tab-photos" class="tab"></div>
     <div id="tab-entities" class="tab"></div>
@@ -33,6 +47,10 @@
   <section id="stage">
     <div id="stage-head">
       <div id="now"></div>
+      <div class="seg" id="viewsel">
+        <button data-view="graph" class="on">Scene graph</button>
+        <button data-view="scene3d" title="The reconstructed room, with pins for entities of the case">3D scene</button>
+      </div>
       <div class="spacer"></div>
       <div class="seg" id="mode">
         <button data-mode="event" class="on" title="Only what is asserted for the event(s) under the playhead">Event</button>
@@ -43,6 +61,7 @@
     <div id="now-events"></div>
     <div id="filters"></div>
     <svg id="graph"></svg>
+    <div id="scene-host-a" class="scene-host hidden"></div>
     <div id="empty" class="hidden"></div>
     <div id="legend"></div>
   </section>
@@ -72,9 +91,15 @@
   <svg id="overview"></svg>
   <div id="tracks-wrap"><svg id="tracks"></svg></div>
 </footer>
+</section>
+
+<section id="page-image" class="page"></section>
+<section id="page-video" class="page scroll"></section>
+<div id="scene"></div>
 
 <div id="lightbox" class="hidden"><img alt=""><div class="cap"></div></div>
 <script src="vendor/d3.min.js"></script>
 <script src="app.js"></script>
+<script src="pages.js"></script>
 </body>
 </html>
