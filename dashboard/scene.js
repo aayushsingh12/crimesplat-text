@@ -20,11 +20,12 @@ function viewPose(v) {
 async function open(sceneMeta, h) {
   hooks = h; host = document.querySelector("#scene");
   if (meta?.id === sceneMeta.id) { resize(); return; }
+  if (renderer) { renderer.setAnimationLoop(null); splat?.dispose?.(); renderer.dispose(); splat = null; views = []; viewIdx = -1; }
   meta = sceneMeta; base = `case/scenes/${encodeURIComponent(meta.id)}/`;
   host.innerHTML = `<canvas></canvas><div id="pins"></div>
     <div id="scene-bar"><b>${esc(meta.title)}</b>
-      <span class="demo-tag" title="${esc(meta.note)}">stands for ${esc(meta.location)}</span>
-      <span class="meta">${esc(meta.units)} · no measurements</span><span class="spacer"></span>
+      <span class="${/demo purposes/.test(meta.location) ? "demo-tag" : "pill"}" title="${esc(meta.note)}">${/demo purposes/.test(meta.location) ? "stands for" : "shows"} ${esc(meta.location)}</span>
+      <span class="meta">${esc(meta.units)}${meta.units === "unitless" ? " · no measurements" : ""}</span><span class="spacer"></span>
       <input id="sq" placeholder="Find in scene: blood spatter, shoe…" list="sq-list"><datalist id="sq-list">${(meta.queries || []).map((q) => `<option value="${esc(q.query)}">`).join("")}</datalist>
       <button id="sq-go">Search</button><button id="sv-reset">reset view</button></div>
     <div id="scene-result" class="hidden"></div>
@@ -34,7 +35,7 @@ async function open(sceneMeta, h) {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   scene3 = new THREE.Scene(); scene3.background = new THREE.Color(0x101216);
   camera = new THREE.PerspectiveCamera(60, 1, 0.01, 500);
-  if (meta.up === "z") camera.up.set(0, 0, 1);
+  camera.up.set(meta.up === "x" ? 1 : 0, meta.up === "y" || !meta.up ? 1 : 0, meta.up === "z" ? 1 : 0);
   scene3.add(new SparkRenderer({ renderer }));
   controls = new OrbitControls(camera, canvas); controls.enableDamping = true;
   controls.addEventListener("start", () => { fly = null; });
@@ -43,7 +44,7 @@ async function open(sceneMeta, h) {
   const centres = views.map((v) => new THREE.Vector3(...v.position));
   if (centres.length) extent = Math.max(new THREE.Box3().setFromPoints(centres).getSize(new THREE.Vector3()).length(), 0.5);
   const vb = host.querySelector("#scene-views");
-  vb.innerHTML = `<span class="meta" style="white-space:nowrap">source viewpoints (${views.length} registered photos):</span>` + views.map((v, i) => `<button data-i="${i}">${esc(v.image.replace(/\.\w+$/, ""))}</button>`).join("");
+  vb.innerHTML = `<span class="meta" style="white-space:nowrap">source viewpoints (${views.length}):</span>` + views.map((v, i) => (i % Math.ceil(views.length / 40) ? "" : `<button data-i="${i}">${esc(v.t != null ? v.t.toFixed(1) + " s" : v.image.replace(/\.\w+$/, ""))}</button>`)).join("");
   vb.onclick = (e) => { const i = e.target.dataset?.i; if (i != null) snap(+i); };
 
   splat = new SplatMesh({ url: base + meta.splat, raycastable: true });

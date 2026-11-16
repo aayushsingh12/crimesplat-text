@@ -569,8 +569,9 @@
     lightbox: (src, cap) => { const lb = $("#lightbox"); lb.querySelector("img").src = src; lb.querySelector(".cap").textContent = cap; lb.classList.remove("hidden"); },
   };
   async function openScene(id, flyId) {
-    const sc = SCENES.find((x) => x.id === id) || SCENES[0]; if (!sc) return;
-    S.view3d = true;
+    const sc = SCENES.find((x) => x.id === id) || SCENES.find((x) => x.id === S.sceneId) || SCENES[0]; if (!sc) return;
+    S.view3d = true; S.sceneId = sc.id;
+    const pick = $("#scene-pick"); pick.value = sc.id; pick.classList.toggle("hidden", SCENES.length < 2);
     document.querySelectorAll("#viewsel button").forEach((b) => b.classList.toggle("on", b.dataset.view === "scene3d"));
     $("#graph").classList.add("hidden"); $("#legend").classList.add("hidden"); $("#empty").classList.add("hidden");
     $("#scene-host-a").classList.remove("hidden"); $("#scene-host-a").appendChild($("#scene"));
@@ -584,7 +585,7 @@
     document.querySelectorAll("#viewsel button").forEach((b) => b.classList.toggle("on", b.dataset.view === "graph"));
     $("#scene-host-a").classList.add("hidden"); $("#graph").classList.remove("hidden"); $("#legend").classList.remove("hidden"); buildGraph();
   }
-  async function placePin(eid) { await openScene(SCENES[0].id); window.SceneView.startPlacing(E.get(eid)); }
+  async function placePin(eid) { await openScene(S.sceneId); window.SceneView.startPlacing(E.get(eid)); }
   async function savePin(sceneId, ent, xyz, remove) {
     const res = await fetch("api/anchor", { method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ scene: sceneId, entity: ent.name, xyz, remove, placed_by: localStorage.getItem("reviewer") || "" }) });
@@ -593,8 +594,10 @@
     if (window.SceneView?.meta?.id === sceneId) window.SceneView.setPins(list);
     select({ type: "entity", id: ent.id });
   }
-  document.querySelectorAll("#viewsel button").forEach((b) => b.onclick = () => (b.dataset.view === "scene3d" ? openScene(SCENES[0]?.id) : closeScene()));
+  document.querySelectorAll("#viewsel button").forEach((b) => b.onclick = () => (b.dataset.view === "scene3d" ? openScene() : closeScene()));
   if (!SCENES.length) $("#viewsel").classList.add("hidden");
+  $("#scene-pick").innerHTML = SCENES.map((sc) => `<option value="${esc(sc.id)}">${esc(sc.title)}</option>`).join("");
+  $("#scene-pick").onchange = (ev) => openScene(ev.target.value);
   window.addEventListener("keydown", (ev) => {
     if (["INPUT", "SELECT", "TEXTAREA"].includes(ev.target.tagName)) return;
     if (ev.key === "Escape") window.SceneView?.cancelPlacing();
