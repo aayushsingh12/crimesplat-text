@@ -7,7 +7,7 @@ window.addEventListener("desk-ready", () => {
   const pendingN = () => B.claims.filter((c) => D.status(c) === "pending").length;
 
   // ---------- navigation ----------
-  const pages = ["home", "file", "investigate", "image", "video"];
+  const pages = ["home", "file", "investigate", "analysis", "work", "image", "video"];
   function nav(page, keepHash) {
     if (!pages.includes(page)) page = "home";
     pages.forEach((p) => { $("#page-" + p).classList.toggle("on", p === page); $(`#nav [data-page=${p}]`).classList.toggle("on", p === page); });
@@ -16,6 +16,8 @@ window.addEventListener("desk-ready", () => {
     if (page === "file") renderFile();
     if (page === "image") renderImage();
     if (page === "video") renderVideo();
+    if (page === "analysis") window.__renderAnalysis?.();
+    if (page === "work") window.__renderWork?.();
     if (page === "investigate") window.dispatchEvent(new Event("resize"));
     $("#search").classList.toggle("hidden", page !== "investigate");
   }
@@ -130,7 +132,7 @@ window.addEventListener("desk-ready", () => {
       <table class="t"><tr><th>Name</th><th>Type</th><th>Claims</th><th>First mentioned</th><th>Last mentioned</th><th>Described as</th><th>In 3D scene</th></tr>
       ${list.filter((e) => !fileFilter || [e.name, ...e.aliases].join(" ").toLowerCase().includes(fileFilter.toLowerCase())).slice(0, 400).map((e) => {
         const sp = span(e), at = (D.claimsOf.get(e.id) || []).filter((c) => c.s === e.id && !c.o).slice(0, 3).map((c) => c.literal);
-        return `<tr class="click" data-ent="${e.id}"><td><b>${esc(e.name)}</b> ${e.demo ? demoTag : ""}${e.aliases.length ? `<div class="meta">also: ${e.aliases.slice(0, 4).map(esc).join(", ")}</div>` : ""}</td><td>${D.typeTag(e.type)}</td><td>${e.n_claims}</td><td>${sp ? D.fmtDay(sp[0]) : "–"}</td><td>${sp ? D.fmtDay(sp[1]) : "–"}</td><td class="meta">${at.map(esc).join(" · ")}</td><td>${D.anchorOf(e) ? "pinned" : D.sceneOf(e) ? "scene" : ""}</td></tr>`;
+        return `<tr class="click" data-ent="${e.id}"><td><b>${esc(e.name)}</b> ${e.demo ? demoTag : ""}${e.type === "PERSON" ? ` <a data-dossier="${e.id}" style="cursor:pointer;font-size:11px">dossier</a>` : ""}${e.aliases.length ? `<div class="meta">also: ${e.aliases.slice(0, 4).map(esc).join(", ")}</div>` : ""}</td><td>${D.typeTag(e.type)}</td><td>${e.n_claims}</td><td>${sp ? D.fmtDay(sp[0]) : "–"}</td><td>${sp ? D.fmtDay(sp[1]) : "–"}</td><td class="meta">${at.map(esc).join(" · ")}</td><td>${D.anchorOf(e) ? "pinned" : D.sceneOf(e) ? "scene" : ""}</td></tr>`;
       }).join("")}</table>`;
   }
   function fileBody() {
@@ -168,6 +170,7 @@ window.addEventListener("desk-ready", () => {
     $("#page-file").innerHTML = `<div id="file-nav"><div class="panel-title">Case file</div>${SECTIONS.map(([id, label, n]) => `<div class="row${id === fileSection ? " on" : ""}" data-sec="${id}">${label}<b>${n()}</b></div>`).join("")}</div><div id="file-main"><div class="wrap">${fileBody()}</div></div>`;
     $("#page-file").onclick = (e) => {
       const q = (a) => e.target.closest(`[data-${a}]`)?.dataset[a];
+      if (q("dossier")) return window.__openDossier(q("dossier"));
       if (e.target.tagName === "A" && !q("scene")) return;
       if (q("sec")) { fileSection = q("sec"); fileFilter = ""; return renderFile(); }
       if (q("ent")) return openEntity(q("ent"));

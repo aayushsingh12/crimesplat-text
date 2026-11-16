@@ -193,3 +193,25 @@ pre.log { background: var(--bg); border: 1px solid var(--line); padding: 8px; ma
 .pin.demo i { background: #a882ff; } .pin.demo span { border-color: #6a4fa3; color: #dccbff; }
 .node.demo .shape { stroke: #a882ff; stroke-width: 2.5px; stroke-dasharray: 4 3; } .node.demo text.name { fill: #dccbff; }
 .edge.demo path { stroke: #a882ff; } .claim.demo { border-color: #6a4fa3; } .st.demo { color: #c9a6ff; border-color: #6a4fa3; }
+
+/* analysis and workbook */
+#page-analysis.on, #page-work.on { flex-direction: row; } .side-nav { flex: 0 0 230px; background: var(--panel); border-right: 1px solid var(--line); overflow: auto; } .side-nav .row b { float: right; color: var(--accent); font-weight: 400; }
+.side-main { flex: 1; overflow: auto; min-width: 0; } .side-main .wrap { max-width: 1100px; margin: 0; }
+.item { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 4px; padding: 10px 12px; margin-bottom: 12px; }
+.item > .h { display: flex; gap: 10px; align-items: baseline; margin-bottom: 6px; } .item > .h b { font-size: 14px; } .item > .h .spacer { flex: 1; }
+.item .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } .item .claim { margin: 0; }
+.cwbar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line); } .cwbar button { font-size: 11px; padding: 2px 8px; }
+.task { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border-bottom: 1px solid var(--line); } .task.done .tt { text-decoration: line-through; color: var(--dim); }
+.task input[type=checkbox] { margin-top: 3px; } .task .tt { flex: 1; } .task .lk { color: #8ec5ff; cursor: pointer; font-size: 12px; }
+.hyp { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; margin-bottom: 14px; } .hyp h3 { margin: 0 0 6px; font-size: 15px; }
+.bar { height: 8px; border-radius: 4px; background: #33221f; overflow: hidden; margin: 6px 0 10px; } .bar i { display: block; height: 100%; background: #62c58c; }
+.stance { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; padding: 0 5px; border-radius: 2px; border: 1px solid var(--line); } .stance.supports { color: #7fe0a6; } .stance.contradicts { color: #ff8c84; }
+.path { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 10px 0; } .path .hop { color: var(--accent); font-size: 11px; }
+.dossier h1 { margin-bottom: 2px; } .dossier .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; } .dossier .claim { cursor: pointer; }
+textarea { font: inherit; color: var(--text); background: var(--panel2); border: 1px solid var(--line); border-radius: 3px; padding: 6px 9px; width: 100%; }
+@media print {
+  body { overflow: visible; display: block; background: #fff; color: #000; } #top, .side-nav, .noprint, .cwbar { display: none !important; }
+  .page { display: none !important; } .page.printing { display: block !important; } .side-main { overflow: visible; }
+  .claim, .item, .hyp, .card, .person { background: #fff !important; border-color: #999 !important; color: #000; break-inside: avoid; } .meta, .quote, .wrap h2 { color: #333 !important; }
+  .quote { border-left-color: #999; } mark { background: #ddd; color: #000; } a { color: #000 !important; }
+}

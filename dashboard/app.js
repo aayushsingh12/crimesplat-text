@@ -286,6 +286,7 @@
         ${ph.date ? `<div style="margin-top:8px"><button data-goto="${T(ph.date + "T12:00")}">Go to this date</button></div>` : ""}
         <h3>Linked by caption</h3>${ph.entities.map((id) => `<div class="row" data-ent="${id}">${typeTag(E.get(id).type)}${esc(E.get(id).name)}</div>`).join("") || '<div class="meta">The caption names no known entity.</div>'}`;
     }
+    if (sel && window.__cwBar) el.insertAdjacentHTML("afterbegin", window.__cwBar(sel));
     el.scrollTop = 0;
   }
   const span = (v) => !v.time ? "undated section of the case file" : v.t1 - v.t0 < 1.5 * DAY ? fmtDay(v.t0) : fmtDay(v.t0) + " – " + fmtDay(v.t1);
@@ -620,6 +621,6 @@
   $("#legend").innerHTML = `<span>● tracked instance</span><span>■ place / setting</span><span><i></i>stated</span><span><i style="border-top-style:dashed"></i>reported</span><span><i style="border-top-style:dotted"></i>alleged / speculated</span><span>double-click a node for all its claims</span>`;
   window.addEventListener("resize", () => { drawTimeline(); buildGraph(); });
   buildLeft(); buildReview(); drawTimeline(); setTime(S.t);
-  window.__desk = { S, B, E, C, V, P, EV, claimsOf, passageClaims, esc, fmtDay, typeTag, sceneHooks, gotoEvent, SCENES, anchorOf, sceneOf, color, css, openScene, closeScene, review, status, setTime, select, step, setMode, focusEntity, activeEvents, stageClaims };
+  window.__desk = { S, B, claimCard, renderInspector, whenText, predLabel, E, C, V, P, EV, claimsOf, passageClaims, esc, fmtDay, typeTag, sceneHooks, gotoEvent, SCENES, anchorOf, sceneOf, color, css, openScene, closeScene, review, status, setTime, select, step, setMode, focusEntity, activeEvents, stageClaims };
   window.dispatchEvent(new Event("desk-ready"));
 })();
