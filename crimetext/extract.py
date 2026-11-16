@@ -32,7 +32,7 @@ def make_chunks(case_dir: Path, size=28):
     passages = [p for p in json.loads((case_dir / "sources" / "passages.json").read_text()) if is_content(p)]
     out = case_dir / "work" / "chunks"
     out.mkdir(parents=True, exist_ok=True)
-    for f in out.glob("chunk_*.json"):
+    for f in out.glob("chunk_[0-9][0-9][0-9].json"):      # chunks of uploaded documents are kept
         f.unlink()
     chunks, cur = [], []
     for p in passages:

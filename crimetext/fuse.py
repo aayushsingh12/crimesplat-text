@@ -11,7 +11,7 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from . import extract, timeparse
+from . import extract, ingest, review, scenes, timeparse
 from .schema import ENTITY_TYPES, LITERAL_TYPES
 
 IMG = (".jpg", ".jpeg", ".png", ".webp", ".gif")
@@ -101,6 +101,20 @@ def build(case_dir: Path, log=print):
     cfg = json.loads((case_dir / "case.json").read_text())
     passages = json.loads((case_dir / "sources" / "passages.json").read_text())
     evidence = json.loads((case_dir / "sources" / "evidence.json").read_text())
+    docs = ingest.documents(case_dir)
+    passages += ingest.passages(case_dir)
+    evidence += docs
+    demo_path, demo_claims = case_dir / "demo" / "links.json", []
+    if demo_path.exists():                      # hand-written links, always labelled as such
+        demo = json.loads(demo_path.read_text())
+        when = timeparse.parse(demo.get("date", "")) or {}
+        evidence.append({"id": "DEMO", "kind": "demo", "title": "Demo links " + demo["tag"], "path": "demo/links.json", "note": demo["note"]})
+        for i, c in enumerate(demo["claims"], 1):
+            pid = f"x{i:04d}"
+            passages.append({"id": pid, "section": "Demo links " + demo["tag"], "subsection": None, "date_heading": demo.get("date"),
+                             "time": {k: when[k] for k in ("start", "end", "precision")} if when else None, "time_from": "heading",
+                             "depth": 0, "text": c["text"], "bold": [], "links": [], "evidence": ["DEMO"], "demo": True})
+            demo_claims.append(c | {"pid": pid, "quote": c["text"], "certainty": "stated", "attributed_to": None, "demo": True})
     by_pid = {p["id"]: p for p in passages}
     ents = Entities(cfg.get("aliases", {}))
 
@@ -111,6 +125,10 @@ def build(case_dir: Path, log=print):
         raw_claims += claims
         raw_events += events
 
+    raw_claims += demo_claims
+    if demo_claims:
+        raw_events.append({"title": demo["event_title"], "kind": "discovery", "summary": demo["note"],
+                           "pids": [c["pid"] for c in demo_claims], "demo": True})
     # pass 1: register every entity mention, then merge name variants
     for c in raw_claims:
         c["_s"] = ents.add(c["s"], c["s_type"])
@@ -126,17 +144,23 @@ def build(case_dir: Path, log=print):
             ids[k] = f"N{len(ids) + 1:04d}"
             name = ents.display.get(k) or max(ents.names[k].items(), key=lambda kv: (kv[1], len(kv[0])))[0]
             entities.append({"id": ids[k], "name": name, "type": typ, "kind": ENTITY_TYPES[typ],
-                             "aliases": sorted(n for n in ents.names[k] if n != name), "n_claims": 0, "photos": []})
+                             "aliases": sorted(n for n in ents.names[k] if n != name), "n_claims": 0, "photos": [],
+                             "demo": "[for demo purposes]" in name})
         return ids[k]
 
-    claims = []
+    claims, decisions = [], review.load(case_dir)
+    threshold = cfg.get("review_threshold", review.DEFAULT_THRESHOLD)
     for c in raw_claims:
         p = by_pid[c["pid"]]
+        when = _claim_time(c, p)
+        conf, why = review.score(c, p, bool(when))
+        k = review.claim_key(c)
         claims.append({
+            "key": k, "conf": conf, "conf_why": why, "review": decisions.get(k), "demo": bool(c.get("demo")),
             "id": f"C{len(claims) + 1:05d}", "pid": c["pid"], "s": ent_id(c["_s"]), "p": c["p"],
             "p_text": c.get("p_text"), "o": ent_id(c["_o"]) if c["_o"] else None,
             "literal": None if c["_o"] else c["o"], "o_type": c["o_type"], "quote": c["quote"],
-            "time": _claim_time(c, p), "certainty": c["certainty"],
+            "time": when, "certainty": c["certainty"],
             "by": ent_id(c["_a"]) if c["_a"] else None, "evidence": p.get("evidence", []), "events": [],
         })
     emap = {e["id"]: e for e in entities}
@@ -152,7 +176,8 @@ def build(case_dir: Path, log=print):
     events, covered = [], set()
     for e in raw_events:
         covered.update(e["pids"])
-        events.append({"title": e["title"].strip(), "kind": e["kind"], "summary": e.get("summary", ""), "pids": e["pids"]})
+        events.append({"title": e["title"].strip(), "kind": e["kind"], "summary": e.get("summary", ""), "pids": e["pids"],
+                       "demo": bool(e.get("demo"))})
     leftover = defaultdict(list)
     for p in passages:
         if p["id"] not in covered and by_pid_claims[p["id"]]:
@@ -210,7 +235,13 @@ def build(case_dir: Path, log=print):
         "stats": {"passages": len(passages), "passages_with_claims": len(used), "claims": len(claims),
                   "claims_dropped_ungrounded_or_invalid": dropped, "entities": len(entities),
                   "events": len(out_events), "timed_claims": sum(1 for c in claims if c["time"]),
-                  "photos": len(photos), "evidence": len(evidence)},
+                  "photos": len(photos), "evidence": len(evidence), "documents": len(docs),
+                  "demo_claims": len(demo_claims),
+                  "chunks": len(list((case_dir / "work" / "chunks").glob("chunk_*.json"))),
+                  "chunks_extracted": len(list((case_dir / "work" / "extract").glob("chunk_*.json")))},
+        "review": {"threshold": threshold, "decided": len(decisions),
+                   "below_threshold": sum(1 for c in claims if c["conf"] < threshold)},
+        "scenes": scenes.load_all(case_dir), "documents": docs, "doc_types": ingest.DOC_TYPES,
         "evidence": evidence, "passages": passages, "entities": entities, "claims": claims,
         "events": out_events, "photos": photos,
     }
