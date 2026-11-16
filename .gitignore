@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+.claude/
+node_modules/
+cases/*/fetch.log
+cases/*/raw/files/*.png
