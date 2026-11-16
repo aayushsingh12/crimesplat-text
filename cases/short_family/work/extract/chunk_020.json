@@ -1,0 +1,216 @@
+{
+ "claims": [
+  {
+   "pid": "p0642",
+   "s": "offender",
+   "s_type": "PERSON",
+   "p": "KILLED",
+   "o": "Mary Short",
+   "o_type": "PERSON",
+   "quote": "Mary could have been killed to eliminate a witness",
+   "time_text": null,
+   "certainty": "speculated",
+   "attributed_to": null,
+   "p_text": null
+  },
+  {
+   "pid": "p0642",
+   "s": "offender",
+   "s_type": "PERSON",
+   "p": "ABDUCTED",
+   "o": "Jennifer Short",
+   "o_type": "PERSON",
+   "quote": "Jennifer could have been abducted because she saw or recognized the offender",
+   "time_text": null,
+   "certainty": "speculated",
+   "attributed_to": null,
+   "p_text": null
+  },
+  {
+   "pid": "p0644",
+   "s": "offender",
+   "s_type": "PERSON",
+   "p": "OTHER",
+   "o": "entire Short household",
+   "o_type": "GROUP",
+   "quote": "the offender intended to eliminate the entire Short household",
+   "time_text": null,
+   "certainty": "speculated",
+   "attributed_to": null,
+   "p_text": "intended to eliminate"
+  },
+  {
+   "pid": "p0647",
+   "s": "single offender",
+   "s_type": "PERSON",
+   "p": "OTHER",
+   "o": "Jennifer Short",
+   "o_type": "PERSON",
+   "quote": "A single offender could theoretically have carried out the shootings and removed Jennifer.",
+   "time_text": null,
+   "certainty": "speculated",
+   "attributed_to": null,
+   "p_text": "carried out the shootings and removed"
+  },
+  {
+   "pid": "p0651",
+   "s": "offender",
+   "s_type": "PERSON",
+   "p": "OTHER",
+   "o": "Short residence",
+   "o_type": "LOCATION",
+   "quote": "The offender apparently had enough opportunity to approach the Short residence overnight or in the early morning.",
+   "time_text": null,
+   "certainty": "speculated",
+   "attributed_to": null,
+   "p_text": "apparently had opportunity to approach"
+  },
+  {
+   "pid": "p0652",
+   "s": "Michael Short",
+   "s_type": "PERSON",
+   "p": "FOUND_AT",
+   "o": "garage",
+   "o_type": "LOCATION",
+   "quote": "Michael was found in his garage",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": null
+  },
+  {
+   "pid": "p0652",
+   "s": "Mary Short",
+   "s_type": "PERSON",
+   "p": "LOCATED_AT",
+   "o": "Mary Short’s bedroom",
+   "o_type": "LOCATION",
+   "quote": "Mary was in her bedroom",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": null
+  },
+  {
+   "pid": "p0652",
+   "s": "Jennifer Short",
+   "s_type": "PERSON",
+   "p": "LEFT_AT",
+   "o": "Short residence",
+   "o_type": "LOCATION",
+   "quote": "Authorities successfully removed Jennifer from the residence",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": null
+  },
+  {
+   "pid": "p0652",
+   "s": "Jennifer Short’s remains",
+   "s_type": "OBJECT",
+   "p": "OTHER",
+   "o": "rural North Carolina",
+   "o_type": "LOCATION",
+   "quote": "Her remains were deposited in rural North Carolina.",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": "were deposited in"
+  },
+  {
+   "pid": "p0662",
+   "s": "Rick Lemons",
+   "s_type": "PERSON",
+   "p": "OTHER",
+   "o": "Virginia man who allegedly owed Bowman money",
+   "o_type": "PERSON",
+   "quote": "Rick Lemons told investigators that Bowman had complained about a Virginia man who allegedly owed him money",
+   "time_text": null,
+   "certainty": "reported",
+   "attributed_to": null,
+   "p_text": "told investigators that Bowman complained about"
+  },
+  {
+   "pid": "p0662",
+   "s": "Garrison Bowman",
+   "s_type": "PERSON",
+   "p": "SAID",
+   "o": "a statement about having to kill the man",
+   "o_type": "STATEMENT",
+   "quote": "had made a statement about having to kill the man",
+   "time_text": null,
+   "certainty": "alleged",
+   "attributed_to": "Rick Lemons",
+   "p_text": null
+  },
+  {
+   "pid": "p0662",
+   "s": "Garrison Bowman",
+   "s_type": "PERSON",
+   "p": "OTHER",
+   "o": "Virginia businessman who had not paid him for trailer-related work",
+   "o_type": "PERSON",
+   "quote": "Bowman discussed killing a Virginia businessman who had not paid him for trailer-related work",
+   "time_text": null,
+   "certainty": "reported",
+   "attributed_to": "Rick Lemons",
+   "p_text": "discussed killing"
+  },
+  {
+   "pid": "p0663",
+   "s": "Timothy Fennon Sampson",
+   "s_type": "PERSON",
+   "p": "CHARGED_WITH",
+   "o": "false statements and testimony",
+   "o_type": "ATTRIBUTE",
+   "quote": "ultimately led to federal charges for false statements and testimony",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": null
+  },
+  {
+   "pid": "p0663",
+   "s": "Timothy Fennon Sampson",
+   "s_type": "PERSON",
+   "p": "OTHER",
+   "o": "Short investigation",
+   "o_type": "GROUP",
+   "quote": "Timothy Fennon Sampson became involved in the Short investigation",
+   "time_text": "Years later",
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": "became involved in"
+  }
+ ],
+ "events": [
+  {
+   "title": "Victims found and Jennifer removed",
+   "kind": "action_point",
+   "pids": [
+    "p0651",
+    "p0652"
+   ],
+   "summary": "The telephone line was cut, Michael Short was found in the garage, Mary Short was in her bedroom, and Jennifer Short was removed and later found in rural North Carolina."
+  },
+  {
+   "title": "Rick Lemons account about Bowman",
+   "kind": "investigation",
+   "pids": [
+    "p0662",
+    "p0663"
+   ],
+   "summary": "Rick Lemons reported remarks attributed to Garrison Bowman; later, Timothy Fennon Sampson gave information that led to federal false-statement charges."
+  },
+  {
+   "title": "Theories about who was targeted",
+   "kind": "background",
+   "pids": [
+    "p0642",
+    "p0644",
+    "p0647"
+   ],
+   "summary": "Investigators have considered whether the offender targeted the family, Mary Short or Jennifer Short; none is publicly confirmed."
+  }
+ ]
+}

@@ -1,0 +1,110 @@
+{
+ "claims": [
+  {
+   "pid": "p0692",
+   "s": "Virginia State Police",
+   "s_type": "GROUP",
+   "p": "OTHER",
+   "o": "Short family investigation",
+   "o_type": "OBJECT",
+   "quote": "Virginia State Police continues to list the investigation as active",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": "continues to list as active"
+  },
+  {
+   "pid": "p0693",
+   "s": "Michael Short",
+   "s_type": "PERSON",
+   "p": "IN_STATE",
+   "o": "homicide victim",
+   "o_type": "STATE",
+   "quote": "Michael Wayne Short, Mary Hall Short, and Jennifer Renee Short are all homicide victims",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": null
+  },
+  {
+   "pid": "p0693",
+   "s": "unidentified killer or killers",
+   "s_type": "PERSON",
+   "p": "HAS_ATTRIBUTE",
+   "o": "unidentified",
+   "o_type": "ATTRIBUTE",
+   "quote": "Their killer or killers remain unidentified.",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": null
+  },
+  {
+   "pid": "p0694",
+   "s": "Henry County Sheriff’s Office",
+   "s_type": "GROUP",
+   "p": "OTHER",
+   "o": "Short family investigation",
+   "o_type": "OBJECT",
+   "quote": "An investigator assigned by the Henry County Sheriff’s Office works the case nearly daily",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": "assigned an investigator who works the case nearly daily"
+  },
+  {
+   "pid": "p0695",
+   "s": "Virginia State Police",
+   "s_type": "GROUP",
+   "p": "OTHER",
+   "o": "Short family investigation",
+   "o_type": "OBJECT",
+   "quote": "Virginia State Police and FBI personnel continue assisting",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": "continue assisting"
+  },
+  {
+   "pid": "p0696",
+   "s": "evidence collected in 2002",
+   "s_type": "OBJECT",
+   "p": "EXAMINED",
+   "o": "renewed advanced DNA testing",
+   "o_type": "OBJECT",
+   "quote": "Evidence collected in 2002 has undergone renewed advanced DNA testing.",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": null
+  },
+  {
+   "pid": "p0697",
+   "s": "Authorities",
+   "s_type": "GROUP",
+   "p": "OTHER",
+   "o": "people who had contact with the Short family in the two weeks before the murders",
+   "o_type": "PERSON",
+   "quote": "Authorities continue seeking people who had contact with the family during the two weeks immediately preceding the murders",
+   "time_text": null,
+   "certainty": "stated",
+   "attributed_to": null,
+   "p_text": "continue seeking"
+  }
+ ],
+ "events": [
+  {
+   "title": "Current status of the case",
+   "kind": "background",
+   "pids": [
+    "p0692",
+    "p0693",
+    "p0694",
+    "p0695",
+    "p0696",
+    "p0697"
+   ],
+   "summary": "The case remains active; a Henry County investigator, state police and FBI continue work, and 2002 evidence has been retested."
+  }
+ ]
+}
