@@ -70,13 +70,63 @@ python -m crimetext.extract cases/short_family chunk_003.json
 
 ## Dashboard
 
-| Area | What it shows |
+| Page | What it is for |
 |---|---|
-| Timeline (bottom) | Event clips on one track per kind, claim density, a track per main entity, photo markers, a draggable playhead. Wheel zooms, shift-drag pans, space plays through the events. |
-| Stage (centre) | The scene graph for the event under the playhead. Circles are things, squares are places. Solid arrows are stated, dashed are reported, dotted are alleged or speculated. |
-| Modes | **Event**: one event's claims. **Up to now**: everything asserted before the playhead. **Entity**: every claim about one entity. |
-| Left | Events, source passages, photos with captions, entities. |
-| Inspector (right) | For any node, arrow, claim, event, passage or photo: the claims behind it, the exact quote highlighted in its passage, the source file and its SHA-256. |
+| **Intake** | Where the case stands (collect, extract, build, review, scenes) and where material is added: official documents (witness statements, police reports, lab reports, court papers), photographs, scene photographs, footage. |
+| **Case file** | The file as a navigable record: people, agencies, places, objects and weapons, vehicles, events, documents and sources with hashes, photographs, 3D scenes, and the review record. Every row opens in the investigation. |
+| **Investigation** | The timeline workspace. Bottom: event clips per kind, claim density, a track per main entity, photo markers, a draggable playhead (wheel zooms, shift-drag pans, space plays). Centre: the scene graph for the event under the playhead, or the 3D scene with its pins. Right: for any node, arrow, claim, event, passage or photo, the claims behind it, the quote highlighted in its passage, the source and its SHA-256. |
+| **Scene from photos** | The image pipeline: the splat, its source viewpoints, text search in the scene, the photo set, and the pipeline's requirements and run button. |
+| **Scene from video** | Footage intake for the video pipeline. Stores footage with its hash; the pipeline itself is not connected yet. |
+
+### Human review
+
+Every claim gets a confidence between 0 and 1 from fixed rules (`crimetext/review.py`): the strength
+of the passage's wording, minus points for a subject or object that is not named in the passage,
+unnamed parties, accusatory relations, missing dates and very short quotes. Claims under the
+threshold (`review_threshold` in `case.json`, default 0.70) wait in the Review tab, lowest first.
+A reviewer opens the claim, reads the passage, and accepts or rejects it (keys A and R). Rejected
+claims leave the graph. Decisions are stored in `review/decisions.json` with reviewer, time and
+note, and every action is appended to `review/log.jsonl`.
+
+### 3D scenes and the image pipeline
+
+`pipelines/image/` is the image pipeline from the crime-splat repository (COLMAP, nerfstudio
+Splatfacto, pruning, SAM + CLIP region tagging, text query, export), with its documentation.
+Its two research data trees (`eval/results`, `strengthen`) are not copied.
+
+```bash
+python -m crimetext scene cases/short_family --splat /path/to/splat.ply --id bedroom --title "Bedroom" --location "Bedroom of the Short residence [for demo purposes]"
+```
+
+This copies the splat into `scenes/<id>/` with its hash and takes the pipeline's camera poses,
+photo labels and stored query results from `pipelines/image/`. In the dashboard:
+
+- **Viewpoints.** Each registered source photo is a button that puts the camera exactly where
+  that photo was taken.
+- **Find in scene.** Text search answers in the shape of the pipeline's query server. With the
+  pipeline's `region_lookup.json` in the scene folder and `open_clip` installed it runs live
+  CLIP matching through `pipelines/image/scripts/query_regions.py`. Without them it serves the
+  queries the pipeline already ran, with their rendered results and hand-checked verdicts, and
+  says so. The pipeline's own caveat is always shown: similarity does not separate real matches
+  from absent objects.
+- **Pins.** Select an entity, choose "Pin in 3D scene", click the surface. A pin stores the
+  entity name, the point in the splat frame, who placed it and when. Pins are never placed
+  automatically.
+- **Run the pipeline.** "Scene from photos" checks the pipeline's requirements (COLMAP, the two
+  conda environments, an 8 GB GPU, at least 18 photos) and starts `pipelines/image/quickstart.sh`
+  on the scene's photos when they are met.
+
+The scene has no metric scale, so the dashboard shows no distances.
+
+### Demo links
+
+`cases/short_family/demo/links.json` holds hand-written links between the 3D scene and the case:
+the reconstructed room stands for a bedroom of the Short residence, the mannequin for Michael
+Short, the blood stains are tied to the .22-caliber pistol named in the case file, and so on.
+None of this comes from the case file. Every such entity carries **[for demo purposes]** in its
+name, every such claim is flagged, drawn in purple with a dashed outline, excluded from review,
+and can be hidden with one chip. The scene itself is the Galanakis 2021 staged forensic room.
+There is no knife or other weapon in that scene, so no weapon is pinned.
 
 ## A new case
 
@@ -92,6 +142,13 @@ Make `cases/<name>/case.json` with `title`, `source_url`, the `timeline_section`
 - The Short family extraction was done by Claude Haiku. All 737 claims pass the quote check;
   the quote check does not prove that the triple reads the quote correctly, and no one has
   reviewed the claims by hand yet.
+- No language-model backend was reachable on the development machine, so `extract` and the
+  dashboard's "Run extraction" button have only been seen to fail cleanly. Documents added through
+  Intake are stored, hashed and cut into passages, and wait for extraction.
+- The image pipeline's requirements are not installed on the development machine, so "Run image
+  pipeline" has not been run from the dashboard. The splat in the demo was built by the pipeline
+  elsewhere.
+- Live CLIP search needs the pipeline's region index, which is not in the crime-splat repository.
 - Newspaper scans are downloaded, hashed and OCR'd for reference. Claims are extracted from the
   case page only.
 - One source inconsistency is kept as written: a witness is "Rick Lemons" in one passage and
