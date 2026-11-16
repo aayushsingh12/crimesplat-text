@@ -8,3 +8,4 @@ cases/*/raw/files/*.png
 cases/*/scenes/*/pipeline.log
 # over GitHub's 100 MB file limit: attach the splat again with `python -m crimetext scene`
 cases/*/scenes/*/scene.ply
+cases/*/video/*.log

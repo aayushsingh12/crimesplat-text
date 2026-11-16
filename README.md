@@ -76,7 +76,7 @@ python -m crimetext.extract cases/short_family chunk_003.json
 | **Case file** | The file as a navigable record: people, agencies, places, objects and weapons, vehicles, events, documents and sources with hashes, photographs, 3D scenes, and the review record. Every row opens in the investigation. |
 | **Investigation** | The timeline workspace. Bottom: event clips per kind, claim density, a track per main entity, photo markers, a draggable playhead (wheel zooms, shift-drag pans, space plays). Centre: the scene graph for the event under the playhead, or the 3D scene with its pins. Right: for any node, arrow, claim, event, passage or photo, the claims behind it, the quote highlighted in its passage, the source and its SHA-256. |
 | **Scene from photos** | The image pipeline: the splat, its source viewpoints, text search in the scene, the photo set, and the pipeline's requirements and run button. |
-| **Scene from video** | Footage intake for the video pipeline. Stores footage with its hash; the pipeline itself is not connected yet. |
+| **Scene from video** | The connection to the video pipeline: store footage with its hash, start the pipeline on it, and import the finished scene into the case. |
 
 ### Human review
 
@@ -118,6 +118,17 @@ photo labels and stored query results from `pipelines/image/`. In the dashboard:
 
 The scene has no metric scale, so the dashboard shows no distances.
 
+### The video pipeline
+
+The video pipeline lives in its own repository (crimesplat-video) and is used in place, not
+copied. `crimetext/videopipe.py` finds it (`video_pipeline_dir` in `case.json`, else
+`$CRIMESPLAT_VIDEO`, else `~/Projects/crimesplat-video`), checks that it can run (repository,
+`uv`, its environment, `ffmpeg`, a GPU), and for a stored footage file runs
+`crimesplat init` and `crimesplat run` with the compute profile that fits the GPU. When the
+pipeline has written its Scene Package, the package is imported as a scene of the case: splat,
+camera path as viewpoints, frame thumbnails as source views, units and quality figures. From
+then on it behaves like any other scene: pins, viewpoints, the scene picker in the investigation.
+
 ### Demo links
 
 `cases/short_family/demo/links.json` holds hand-written links between the 3D scene and the case:
@@ -148,6 +159,8 @@ Make `cases/<name>/case.json` with `title`, `source_url`, the `timeline_section`
 - The image pipeline's requirements are not installed on the development machine, so "Run image
   pipeline" has not been run from the dashboard. The splat in the demo was built by the pipeline
   elsewhere.
+- The video connection was checked by importing an existing synthetic Scene Package and viewing
+  it. A full run started from the dashboard has not been done yet.
 - Live CLIP search needs the pipeline's region index, which is not in the crime-splat repository.
 - Newspaper scans are downloaded, hashed and OCR'd for reference. Claims are extracted from the
   case page only.
