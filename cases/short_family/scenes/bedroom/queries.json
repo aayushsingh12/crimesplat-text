@@ -1,0 +1,92 @@
+[
+ {
+  "query": "blood spatter",
+  "similarity": 0.3226,
+  "sift_support": 22,
+  "verdict": "plausible match \u2014 lands on a blood-marked evidence card",
+  "ok": true,
+  "image": "IMG_0463.jpg",
+  "render": "queries/blood_spatter.jpg"
+ },
+ {
+  "query": "blood stain",
+  "similarity": 0.3072,
+  "sift_support": 10,
+  "verdict": "plausible match \u2014 lands on a blood-marked card",
+  "ok": true,
+  "image": "IMG_0457.jpg",
+  "render": "queries/blood_stain.jpg"
+ },
+ {
+  "query": "evidence marker",
+  "similarity": 0.3004,
+  "sift_support": 16,
+  "verdict": "plausible match \u2014 lands on/near an evidence marker card",
+  "ok": true,
+  "image": "IMG_0457.jpg",
+  "render": "queries/evidence_marker.jpg"
+ },
+ {
+  "query": "footprint",
+  "similarity": 0.2937,
+  "sift_support": 1,
+  "verdict": "plausible match \u2014 lands exactly on the bloody-footprint card",
+  "ok": true,
+  "image": "IMG_0457.jpg",
+  "render": "queries/footprint.jpg"
+ },
+ {
+  "query": "body",
+  "similarity": 0.287,
+  "sift_support": 1,
+  "verdict": "plausible match \u2014 lands on the mannequin's arm/hand",
+  "ok": true,
+  "image": "IMG_0459.jpg",
+  "render": "queries/body.jpg"
+ },
+ {
+  "query": "mannequin",
+  "similarity": 0.2769,
+  "sift_support": 6,
+  "verdict": "plausible match \u2014 lands on the mannequin's face",
+  "ok": true,
+  "image": "IMG_0464.jpg",
+  "render": "queries/mannequin.jpg"
+ },
+ {
+  "query": "shoe",
+  "similarity": 0.2765,
+  "sift_support": 20,
+  "verdict": "plausible match \u2014 lands exactly on the mannequin's shoe",
+  "ok": true,
+  "image": "IMG_0457.jpg",
+  "render": "queries/shoe.jpg"
+ },
+ {
+  "query": "floor",
+  "similarity": 0.265,
+  "sift_support": 9,
+  "verdict": "weak / ambiguous \u2014 lands on an evidence card sitting on the floor, not a plain floor surface",
+  "ok": false,
+  "image": "IMG_0457.jpg",
+  "render": "queries/floor.jpg"
+ },
+ {
+  "query": "a car",
+  "similarity": 0.2592,
+  "sift_support": 1,
+  "verdict": "wrong region \u2014 absent-object query, no car exists in this scene",
+  "ok": false,
+  "image": "IMG_0485.jpg",
+  "render": "queries/a_car.jpg"
+ },
+ {
+  "query": "weapon",
+  "similarity": 0.2493,
+  "sift_support": 12,
+  "verdict": "wrong region \u2014 no weapon in this scene; also lands right at the top frame edge",
+  "ok": false,
+  "image": "IMG_0464.jpg",
+  "render": "queries/weapon.jpg"
+ }
+]

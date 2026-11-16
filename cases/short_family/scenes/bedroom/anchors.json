@@ -1,0 +1,62 @@
+[
+ {
+  "entity": "Body in 3D scene [for demo purposes]",
+  "xyz": [
+   -0.3001,
+   0.0251,
+   -0.3437
+  ],
+  "method": "human pin",
+  "placed_by": "",
+  "at": "2026-11-16T21:56:11",
+  "demo": true
+ },
+ {
+  "entity": "Blood stains in 3D scene [for demo purposes]",
+  "xyz": [
+   -0.2408,
+   0.0794,
+   -0.406
+  ],
+  "method": "human pin",
+  "placed_by": "",
+  "at": "2026-11-16T21:56:12",
+  "demo": true
+ },
+ {
+  "entity": "Shoe in 3D scene [for demo purposes]",
+  "xyz": [
+   -0.0708,
+   -0.0748,
+   -0.4326
+  ],
+  "method": "human pin",
+  "placed_by": "",
+  "at": "2026-11-16T21:56:13",
+  "demo": true
+ },
+ {
+  "entity": "Evidence markers in 3D scene [for demo purposes]",
+  "xyz": [
+   -0.1179,
+   0.1235,
+   -0.4171
+  ],
+  "method": "human pin",
+  "placed_by": "",
+  "at": "2026-11-16T21:56:14",
+  "demo": true
+ },
+ {
+  "entity": "Bloody footprint in 3D scene [for demo purposes]",
+  "xyz": [
+   0.1698,
+   0.0949,
+   -0.466
+  ],
+  "method": "human pin",
+  "placed_by": "",
+  "at": "2026-11-16T21:56:15",
+  "demo": true
+ }
+]

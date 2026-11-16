@@ -1,0 +1,16 @@
+{
+ "id": "bedroom",
+ "title": "Bedroom (image pipeline splat)",
+ "location": "Bedroom of the Short residence [for demo purposes]",
+ "note": "Reconstructed by the image pipeline from the Galanakis 2021 staged forensic scene (30 photographs). For this demonstration it stands for a bedroom of the Short residence. It is not the real room.",
+ "units": "unitless",
+ "up": "z",
+ "pipeline": "image (COLMAP + nerfstudio Splatfacto + SAM/CLIP)",
+ "added_at": "2026-11-16T21:47:03",
+ "splat": "scene.ply",
+ "splat_sha256": "a2ff35362940a53d5ac8d80d304babb2c48da45f46f98213fae93f08cd9eca2f",
+ "splat_bytes": 112614425,
+ "views": "views.json",
+ "labels": "labels.json",
+ "queries": "queries.json"
+}
