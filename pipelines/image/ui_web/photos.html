@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>galanakis2021 — source photo browser (fallback)</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #101010; color: #ddd; font: 14px/1.4 system-ui, sans-serif; }
+  header { padding: 16px 20px; border-bottom: 1px solid #333; }
+  header h1 { font-size: 18px; margin: 0 0 4px; color: #fff; }
+  header a { color: #9ac4ff; }
+  #caveat {
+    margin: 10px 0 0; padding: 8px 12px; background: rgba(90,70,10,0.35); border: 1px solid #6a5320;
+    border-radius: 6px; font-size: 12px; color: #e8d9a8; max-width: 900px;
+  }
+  #filters { padding: 10px 20px; display: flex; gap: 8px; align-items: center; }
+  #filters button {
+    font: 12px system-ui, sans-serif; padding: 6px 12px; border-radius: 6px; border: 1px solid #444;
+    background: #2a2a2a; color: #ddd; cursor: pointer;
+  }
+  #filters button.active { background: #4a3a1a; border-color: #c99a3a; color: #ffd98a; }
+  #summary { color: #999; font-size: 12px; }
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; padding: 12px 20px 40px; }
+  .card {
+    background: #1a1a1a; border: 1px solid #2e2e2e; border-radius: 8px; overflow: hidden; cursor: pointer;
+  }
+  .card:hover { border-color: #555; }
+  .card.unregistered { border-color: #c9820a; }
+  .thumb-wrap { position: relative; aspect-ratio: 3/4; overflow: hidden; background: #0a0a0a; }
+  .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card.unregistered .thumb-wrap img { filter: grayscale(1); }
+  .badge {
+    position: absolute; top: 6px; right: 6px; font-size: 10px; padding: 2px 6px; border-radius: 4px;
+    background: rgba(0,0,0,0.7);
+  }
+  .card:not(.unregistered) .badge { color: #7CFC9C; }
+  .card.unregistered .badge { color: #ffb347; }
+  .card-body { padding: 8px 10px; }
+  .filename { font: 12px ui-monospace, monospace; color: #eee; }
+  .top-label { font-size: 11px; color: #aaa; margin-top: 3px; }
+  .top-label b { color: #cde; }
+  /* Lightbox */
+  #lightbox {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10;
+    align-items: center; justify-content: center; flex-direction: column; padding: 20px; box-sizing: border-box;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img { max-width: 92vw; max-height: 78vh; object-fit: contain; border-radius: 4px; }
+  #lightbox-info { color: #ddd; margin-top: 14px; text-align: center; max-width: 700px; font-size: 13px; }
+  #lightbox-info h2 { margin: 0 0 6px; font-size: 16px; color: #fff; }
+  #lightbox-close {
+    position: absolute; top: 16px; right: 20px; font-size: 22px; color: #ccc; cursor: pointer;
+    background: none; border: none;
+  }
+  .tag-row { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+  .tag { font: 11px ui-monospace, monospace; padding: 3px 8px; border-radius: 4px; background: #222; border: 1px solid #444; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Source photo browser — fallback panel</h1>
+  <a href="./index.html">&larr; back to 3D splat viewer</a>
+  <div id="caveat"></div>
+</header>
+<div id="filters">
+  <button data-filter="all" class="active">All 30</button>
+  <button data-filter="registered">20 registered (3D-queryable)</button>
+  <button data-filter="unregistered">10 not encoded in 3D</button>
+  <span id="summary"></span>
+</div>
+<div id="grid"></div>
+
+<div id="lightbox">
+  <button id="lightbox-close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-info"></div>
+</div>
+
+<script>
+fetch("./photo_labels.json")
+  .then((r) => r.json())
+  .then((data) => {
+    // Caveat wording follows phase2_decision.md's already-documented
+    // finding directly -- not the PDF, not invented fresh here.
+    document.getElementById("caveat").textContent =
+      `Score = max cosine similarity between this image's own CLIP region embeddings and each vocabulary word's ` +
+      `CLIP text embedding (${data.vocabulary.join(", ")}) -- the same text-to-image metric the live query above ` +
+      `uses, not a text-relevance guarantee. Consistent with phase2_decision.md's finding: scores mostly sit in a ` +
+      `narrow ~0.25-0.33 band regardless of match quality (known CLIP zero-shot score compression), so a higher ` +
+      `score here is a weak signal, not a confident label.`;
+
+    document.getElementById("summary").textContent =
+      `${data.summary.total_images} photos — ${data.summary.registered_images} registered, ${data.summary.unregistered_images} not encoded in 3D`;
+
+    const grid = document.getElementById("grid");
+    let activeFilter = "all";
+
+    function passesFilter(img) {
+      if (activeFilter === "registered") return img.registered;
+      if (activeFilter === "unregistered") return !img.registered;
+      return true;
+    }
+
+    function render() {
+      const visible = data.images.filter(passesFilter);
+      grid.innerHTML = visible.map((img, i) => {
+        const idx = data.images.indexOf(img);
+        const top = img.top_labels[0];
+        return `
+          <div class="card ${img.registered ? "" : "unregistered"}" data-idx="${idx}">
+            <div class="thumb-wrap">
+              <img src="${img.photo_path}" loading="lazy" alt="${img.filename}">
+              <span class="badge">${img.registered ? "registered" : "not encoded"}</span>
+            </div>
+            <div class="card-body">
+              <div class="filename">${img.filename}</div>
+              <div class="top-label">${top ? `<b>${top.label}</b> (${top.similarity})` : "no regions"}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      grid.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("click", () => openLightbox(data.images[parseInt(card.dataset.idx, 10)]));
+      });
+    }
+
+    document.querySelectorAll("#filters button[data-filter]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        activeFilter = btn.dataset.filter;
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b === btn));
+        render();
+      });
+    });
+
+    function openLightbox(img) {
+      document.getElementById("lightbox-img").src = img.photo_path;
+      document.getElementById("lightbox-img").alt = img.filename;
+      const tagsHtml = img.top_labels.map((l) => `<span class="tag">${l.label} — ${l.similarity}</span>`).join("");
+      document.getElementById("lightbox-info").innerHTML = `
+        <h2>${img.filename}</h2>
+        <div>${img.note}</div>
+        <div class="tag-row">${tagsHtml || "<span class=\"tag\">no stored regions</span>"}</div>
+      `;
+      document.getElementById("lightbox").classList.add("open");
+    }
+    document.getElementById("lightbox-close").addEventListener("click", () => {
+      document.getElementById("lightbox").classList.remove("open");
+    });
+    document.getElementById("lightbox").addEventListener("click", (e) => {
+      if (e.target.id === "lightbox") document.getElementById("lightbox").classList.remove("open");
+    });
+
+    render();
+  })
+  .catch((err) => {
+    document.getElementById("grid").textContent = "Failed to load photo_labels.json: " + err.message;
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "_comment": "Landmark ground truth from 'Files Description & Ground-truth Measurements.pdf' (Zenodo 5116478). Reference distance chosen BEFORE any clicking/errors: mag_height (A4 long side). Values in mm are quoted from the PDF; A4 is the PDF's stated nominal size ('Not measured, A4 size: 210 x 297mm').",
+  "primary_reference": "mag_height",
+  "points": [
+    {"name": "mag_TL", "images": ["IMG_0470.jpg", "IMG_0485.jpg", "IMG_0469.jpg", "IMG_0477.jpg", "IMG_0478.jpg", "IMG_0480.jpg"],
+     "description": "TOP-LEFT corner of the printed 'THE AGE OF JIHAD' magazine cover pinned on the TV-wall noticeboard (outer corner of the page, not the title box). Skip an image (n) if the corner is hidden by a neighbouring cover."},
+    {"name": "mag_TR", "images": ["IMG_0470.jpg", "IMG_0485.jpg", "IMG_0469.jpg", "IMG_0477.jpg", "IMG_0478.jpg", "IMG_0480.jpg"],
+     "description": "TOP-RIGHT corner of the same 'THE AGE OF JIHAD' cover (outer page corner)."},
+    {"name": "mag_BL", "images": ["IMG_0470.jpg", "IMG_0485.jpg", "IMG_0469.jpg", "IMG_0477.jpg", "IMG_0478.jpg", "IMG_0480.jpg"],
+     "description": "BOTTOM-LEFT corner of the same cover (outer page corner). It may be hidden behind the magazine below it; skip if so."},
+    {"name": "shoe_toe", "images": ["IMG_0486.jpg", "IMG_0458.jpg", "IMG_0461.jpg", "IMG_0478.jpg", "IMG_0480.jpg", "IMG_0457.jpg", "IMG_0479.jpg"],
+     "description": "Tip of the toe of the shoe. Use the mannequin's own LEFT foot (the shoe on the same side as the bloody handprint paper and marker 1415, with dried dirt visible on the sole). Left/right in the frame varies by image; in IMG_0461 it is the LEFT shoe as shown. Skip images where the toe tip is not clearly visible."},
+    {"name": "shoe_heel", "images": ["IMG_0486.jpg", "IMG_0458.jpg", "IMG_0461.jpg", "IMG_0478.jpg", "IMG_0480.jpg", "IMG_0457.jpg", "IMG_0479.jpg"],
+     "description": "Rearmost point of the heel of the SAME shoe as shoe_toe. Use the mannequin's own LEFT foot (the shoe on the same side as the bloody handprint paper and marker 1415, with dried dirt visible on the sole). Left/right in the frame varies by image; in IMG_0461 it is the LEFT shoe as shown."},
+    {"name": "lip_L", "images": ["IMG_0464.jpg", "IMG_0460.jpg", "IMG_0459.jpg", "IMG_0462.jpg", "IMG_0463.jpg"],
+     "description": "One corner of the mannequin's mouth (the end of the lips, the left of the two corners as you see it in IMG_0464)."},
+    {"name": "lip_R", "images": ["IMG_0464.jpg", "IMG_0460.jpg", "IMG_0459.jpg", "IMG_0462.jpg", "IMG_0463.jpg"],
+     "description": "The OTHER corner of the mouth (the end of the lips)."},
+    {"name": "box_A", "images": ["IMG_0478.jpg", "IMG_0480.jpg"],
+     "description": "A TOP-face corner of the small paper box lying with the bomb tools (near the yellow tape roll)."},
+    {"name": "box_B", "images": ["IMG_0478.jpg", "IMG_0480.jpg"],
+     "description": "The top-face corner reached from box_A along the box's LONG edge (PDF length 95.32 mm)."},
+    {"name": "box_C", "images": ["IMG_0478.jpg", "IMG_0480.jpg"],
+     "description": "The top-face corner reached from box_A along the box's SHORT edge (PDF width 60.79 mm)."},
+    {"name": "button_L", "optional": true, "images": ["IMG_0464.jpg", "IMG_0460.jpg", "IMG_0459.jpg", "IMG_0462.jpg"],
+     "description": "OPTIONAL (low precision, ~25 px): left edge of one shirt button (diameter 11.75 mm); use the same button in all images."},
+    {"name": "button_R", "optional": true, "images": ["IMG_0464.jpg", "IMG_0460.jpg", "IMG_0459.jpg", "IMG_0462.jpg"],
+     "description": "OPTIONAL: right edge of the SAME shirt button, on the line through its centre."}
+  ],
+  "distances": [
+    {"name": "mag_height", "a": "mag_TL", "b": "mag_BL", "mm": 297.0, "source": "PDF: Magazines 'Not measured, A4 size: 210 x 297mm'", "uncertainty_mm": null},
+    {"name": "mag_width", "a": "mag_TL", "b": "mag_TR", "mm": 210.0, "source": "PDF: Magazines 'Not measured, A4 size: 210 x 297mm'", "uncertainty_mm": null},
+    {"name": "shoe_length", "a": "shoe_toe", "b": "shoe_heel", "mm": 320.0, "source": "PDF: Shoe 'Measured: 32 cm' (manufacturer EU 46 / 31 cm)", "uncertainty_mm": 10.0},
+    {"name": "lip_length", "a": "lip_L", "b": "lip_R", "mm": 50.55, "source": "PDF: Dead body 'Lips length: 50.55mm'", "uncertainty_mm": null},
+    {"name": "box_length", "a": "box_A", "b": "box_B", "mm": 95.32, "source": "PDF: paper box Length 95.32mm", "uncertainty_mm": null},
+    {"name": "box_width", "a": "box_A", "b": "box_C", "mm": 60.79, "source": "PDF: paper box Width 60.79mm", "uncertainty_mm": null},
+    {"name": "button_diameter", "optional": true, "a": "button_L", "b": "button_R", "mm": 11.75, "source": "PDF: Dead body 'Diameter of shirt button: 11.75mm'", "uncertainty_mm": null}
+  ],
+  "ratios": [["mag_height", "mag_width"], ["box_length", "box_width"], ["shoe_length", "mag_height"]]
+}

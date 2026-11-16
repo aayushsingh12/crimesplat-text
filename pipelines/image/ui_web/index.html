@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>galanakis2021 — live 3D splat viewer</title>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #101010; overflow: hidden; }
+  #canvas { display: block; width: 100%; height: 100%; }
+  #hud {
+    position: fixed; top: 12px; left: 12px; color: #ddd; font: 13px/1.4 system-ui, sans-serif;
+    background: rgba(0,0,0,0.55); padding: 10px 14px; border-radius: 6px; max-width: 380px;
+  }
+  #hud b { color: #fff; }
+  #status { position: fixed; top: 12px; right: 12px; color: #ddd; font: 13px system-ui, sans-serif;
+    background: rgba(0,0,0,0.55); padding: 8px 12px; border-radius: 6px; }
+  #status.error { color: #ff6b6b; }
+  #status.ok { color: #7CFC9C; }
+  #viewpoints {
+    position: fixed; bottom: 12px; left: 12px; right: 12px; max-height: 130px;
+    overflow-y: auto; display: flex; flex-wrap: wrap; gap: 6px;
+    background: rgba(0,0,0,0.55); padding: 10px; border-radius: 6px;
+  }
+  #viewpoints .vp-label { color: #999; font: 12px system-ui, sans-serif; width: 100%; margin-bottom: 2px; }
+  #viewpoints button {
+    font: 12px/1 ui-monospace, monospace; color: #ddd; background: #2a2a2a; border: 1px solid #444;
+    border-radius: 4px; padding: 6px 8px; cursor: pointer;
+  }
+  #viewpoints button:hover { background: #3a3a3a; border-color: #666; }
+  #viewpoints button.active { background: #4a3a1a; border-color: #c99a3a; color: #ffd98a; }
+  #query-panel {
+    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+    width: min(520px, 90vw); font: 13px system-ui, sans-serif;
+  }
+  #query-form { display: flex; gap: 6px; }
+  #query-input {
+    flex: 1; font: 13px system-ui, sans-serif; padding: 8px 10px; border-radius: 6px;
+    border: 1px solid #444; background: rgba(0,0,0,0.65); color: #eee;
+  }
+  #query-form button {
+    font: 13px system-ui, sans-serif; padding: 8px 14px; border-radius: 6px; border: 1px solid #444;
+    background: #2a2a2a; color: #ddd; cursor: pointer;
+  }
+  #query-form button:hover { background: #3a3a3a; }
+  #query-result {
+    margin-top: 8px; padding: 10px 12px; border-radius: 6px; line-height: 1.4; display: none;
+  }
+  #query-result.match { background: rgba(20,80,30,0.75); color: #d6ffe0; display: block; }
+  #query-result.warning { background: rgba(90,70,10,0.8); color: #ffe9b0; display: block; }
+  #query-result .caveat { display: block; margin-top: 6px; font-size: 11px; color: #bbb; }
+  #image-widget {
+    position: fixed; top: 12px; right: 12px; width: 300px; font: 13px system-ui, sans-serif;
+    background: rgba(0,0,0,0.7); border: 1px solid #333; border-radius: 8px; padding: 10px; display: none;
+  }
+  #image-widget.visible { display: block; }
+  #widget-photo-wrap { position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden; border-radius: 4px; background: #0a0a0a; }
+  #widget-photo-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  #widget-bbox { position: absolute; border: 2px solid #ff4444; box-shadow: 0 0 0 1px rgba(0,0,0,0.6); pointer-events: none; }
+  #widget-caption { margin-top: 8px; color: #ddd; font-size: 12px; line-height: 1.4; }
+  #widget-caption b { color: #fff; }
+  #widget-caption .note { color: #ffb347; }
+  #widget-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; gap: 6px; }
+  #widget-nav button {
+    font: 12px system-ui, sans-serif; padding: 5px 10px; border-radius: 5px; border: 1px solid #444;
+    background: #2a2a2a; color: #ddd; cursor: pointer;
+  }
+  #widget-nav button:hover:not(:disabled) { background: #3a3a3a; }
+  #widget-nav button:disabled { opacity: 0.35; cursor: default; }
+  #widget-nav .counter { color: #999; font: 12px ui-monospace, monospace; }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<div id="hud">
+  <b>galanakis2021</b> — pruned Splatfacto checkpoint, exported via <code>ns-export gaussian-splat</code>.<br>
+  Drag: orbit &nbsp;•&nbsp; Right-drag: pan &nbsp;•&nbsp; Scroll: zoom<br>
+  <a href="./photos.html" style="color:#9ac4ff">Source photo browser (fallback, all 30)</a>
+</div>
+<div id="status">loading…</div>
+<div id="query-panel">
+  <form id="query-form">
+    <input id="query-input" type="text" placeholder='e.g. "blood spatter"' autocomplete="off">
+    <button type="submit">Search</button>
+  </form>
+  <div id="query-result"></div>
+</div>
+<div id="image-widget">
+  <div id="widget-photo-wrap">
+    <img id="widget-photo" src="" alt="">
+    <div id="widget-bbox"></div>
+  </div>
+  <div id="widget-caption"></div>
+  <div id="widget-nav">
+    <button id="widget-prev" type="button">&larr; Closer</button>
+    <span class="counter" id="widget-counter"></span>
+    <button id="widget-next" type="button">Farther &rarr;</button>
+  </div>
+</div>
+<div id="viewpoints">
+  <div class="vp-label">Jump to a real COLMAP camera viewpoint (20 registered images):</div>
+</div>
+
+<script type="module">
+import * as SPLAT from "./vendor/gsplat-1.2.9.es.js";
+
+const statusEl = document.getElementById("status");
+const canvas = document.getElementById("canvas");
+
+const renderer = new SPLAT.WebGLRenderer(canvas);
+const scene = new SPLAT.Scene();
+const camera = new SPLAT.Camera();
+const controls = new SPLAT.OrbitControls(camera, canvas);
+
+const PLY_URL = "./export/splat.ply";
+
+async function main() {
+  const t0 = performance.now();
+  const splat = await SPLAT.PLYLoader.LoadAsync(PLY_URL, scene, (progress) => {
+    statusEl.textContent = `loading… ${(progress * 100).toFixed(0)}%`;
+  });
+  window.__debug = { scene, camera, renderer, controls, splat, SPLAT };
+  const loadMs = performance.now() - t0;
+  statusEl.textContent = `loaded in ${(loadMs / 1000).toFixed(1)}s`;
+  statusEl.className = "ok";
+
+  let frames = 0;
+  let lastFpsTime = performance.now();
+  const frame = () => {
+    controls.update();
+    renderer.render(scene, camera);
+
+    // Debug/test hook only: canvas has preserveDrawingBuffer=false, so a
+    // toDataURL() call from outside this callback races the browser's
+    // automatic buffer clear. window.__requestCapture lets an external
+    // test harness grab a frame reliably, synchronously right after
+    // render(). Harmless no-op unless something sets the flag.
+    if (window.__requestCapture) {
+      window.__requestCapture = false;
+      window.__lastCapture = canvas.toDataURL("image/png");
+    }
+
+    frames++;
+    const now = performance.now();
+    if (now - lastFpsTime >= 1000) {
+      statusEl.textContent = `${frames} fps`;
+      frames = 0;
+      lastFpsTime = now;
+    }
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+}
+
+main().catch((err) => {
+  console.error(err);
+  statusEl.textContent = "ERROR: " + err.message;
+  statusEl.className = "error";
+});
+
+// ---------------------------------------------------------------------------
+// Preset viewpoints: the 20 real registered COLMAP camera poses, already
+// transformed into this splat's exact coordinate space by
+// extract_camera_poses.py (see that script's docstring for the coordinate
+// transform and the COLMAP/nerfstudio -> gsplat camera-basis conversion,
+// both already verified there -- not re-derived here). Purely additive:
+// this doesn't touch the render loop or the core renderer/scene/camera
+// setup above, it only sets camera.position/rotation from outside it, the
+// same way user interaction already does via OrbitControls.
+// ---------------------------------------------------------------------------
+const viewpointsByImage = new Map(); // image filename -> {position, rotation_matrix_row_major}
+const viewpointButtons = new Map(); // image filename -> its <button>
+let activeViewpointBtn = null;
+
+function jumpToViewpoint(imageName) {
+  const entry = viewpointsByImage.get(imageName);
+  if (!entry) return false;
+  const m = entry.rotation_matrix_row_major;
+  camera.position = new SPLAT.Vector3(...entry.position);
+  camera.rotation = SPLAT.Quaternion.FromMatrix3(
+    new SPLAT.Matrix3(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8])
+  );
+  if (activeViewpointBtn) activeViewpointBtn.classList.remove("active");
+  const btn = viewpointButtons.get(imageName);
+  if (btn) { btn.classList.add("active"); activeViewpointBtn = btn; }
+  return true;
+}
+
+async function loadViewpoints() {
+  const panel = document.getElementById("viewpoints");
+  let data;
+  try {
+    const res = await fetch("./camera_poses.json");
+    data = await res.json();
+  } catch (err) {
+    console.error("Failed to load camera_poses.json:", err);
+    return;
+  }
+
+  for (const entry of data.cameras) {
+    viewpointsByImage.set(entry.image, entry);
+    const btn = document.createElement("button");
+    btn.textContent = entry.image;
+    btn.addEventListener("click", () => jumpToViewpoint(entry.image));
+    viewpointButtons.set(entry.image, btn);
+    panel.appendChild(btn);
+  }
+}
+
+loadViewpoints();
+
+// ---------------------------------------------------------------------------
+// Text-query-to-viewpoint: fetches the local query API server
+// (query_server.py, imports+reuses query_regions.py's existing matching
+// logic unmodified -- see that file's docstring) and either snaps the
+// camera to the matched real viewpoint, or shows the honest message if
+// the match isn't locatable (a 2D-only region -- no COLMAP pose, no
+// viewpoint to jump to). Purely additive: doesn't touch the render loop,
+// the preset-viewpoint buttons above, or the core renderer/scene/camera
+// setup -- reuses jumpToViewpoint(), the same function the buttons use.
+// ---------------------------------------------------------------------------
+const QUERY_API = "http://localhost:5001/query";
+const TOP_K = 8;
+
+const queryForm = document.getElementById("query-form");
+const queryInput = document.getElementById("query-input");
+const queryResultEl = document.getElementById("query-result");
+
+// ---------------------------------------------------------------------------
+// Image widget: shows the real source photo for the currently-selected
+// query candidate (a real photo next to the splat, per request), with the
+// matched region highlighted, and lets the candidate be cycled from
+// closest match to farthest via the query API's now-ranked `results` list
+// (top_k_matches() in query_regions.py, reused unmodified from the CLI/
+// top1_match path -- ranking itself isn't recomputed here). Selecting a
+// localized candidate reuses jumpToViewpoint(); a 2D-only one shows the
+// honest message and leaves the camera where it is, same rule as before.
+// ---------------------------------------------------------------------------
+const widgetEl = document.getElementById("image-widget");
+const widgetPhoto = document.getElementById("widget-photo");
+const widgetBbox = document.getElementById("widget-bbox");
+const widgetCaption = document.getElementById("widget-caption");
+const widgetPrevBtn = document.getElementById("widget-prev");
+const widgetNextBtn = document.getElementById("widget-next");
+const widgetCounter = document.getElementById("widget-counter");
+
+let currentCandidates = [];
+let currentIndex = 0;
+let currentCaveat = "";
+
+function showCandidate(i) {
+  if (!currentCandidates.length) return;
+  currentIndex = Math.max(0, Math.min(currentCandidates.length - 1, i));
+  const c = currentCandidates[currentIndex];
+
+  widgetEl.classList.add("visible");
+  widgetPhoto.src = c.photo_path;
+  widgetPhoto.alt = c.image;
+
+  // bbox_resized/resized_wh are in the SAM-resized pixel space (see
+  // tag_regions.py) -- converted to percentages here, which map onto the
+  // displayed photo correctly regardless of its rendered size since the
+  // resize preserved aspect ratio.
+  if (c.bbox_resized && c.resized_wh) {
+    const [bx, by, bw, bh] = c.bbox_resized;
+    const [rw, rh] = c.resized_wh;
+    widgetBbox.style.left = `${(bx / rw) * 100}%`;
+    widgetBbox.style.top = `${(by / rh) * 100}%`;
+    widgetBbox.style.width = `${(bw / rw) * 100}%`;
+    widgetBbox.style.height = `${(bh / rh) * 100}%`;
+    widgetBbox.style.display = "block";
+  } else {
+    widgetBbox.style.display = "none";
+  }
+
+  const rankLabel = `#${currentIndex + 1} of ${currentCandidates.length} (closest &rarr; farthest)`;
+  if (c.localized) {
+    jumpToViewpoint(c.viewpoint_id);
+    widgetCaption.innerHTML =
+      `${rankLabel}<br><b>${c.image}</b> — similarity ${c.similarity}` +
+      (c.sift_support != null ? `, ${c.sift_support} SIFT pts` : "") +
+      `<br>Camera moved to this viewpoint.`;
+  } else {
+    widgetCaption.innerHTML =
+      `${rankLabel}<br><b>${c.image}</b> — similarity ${c.similarity}` +
+      `<br><span class="note">${c.message}</span>`;
+  }
+
+  widgetCounter.textContent = `${currentIndex + 1} / ${currentCandidates.length}`;
+  widgetPrevBtn.disabled = currentIndex === 0;
+  widgetNextBtn.disabled = currentIndex === currentCandidates.length - 1;
+}
+
+widgetPrevBtn.addEventListener("click", () => showCandidate(currentIndex - 1));
+widgetNextBtn.addEventListener("click", () => showCandidate(currentIndex + 1));
+
+queryForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const text = queryInput.value.trim();
+  if (!text) return;
+
+  queryResultEl.className = "";
+  queryResultEl.textContent = `Searching for "${text}"...`;
+  queryResultEl.style.display = "block";
+  widgetEl.classList.remove("visible");
+
+  let data;
+  try {
+    const res = await fetch(`${QUERY_API}?text=${encodeURIComponent(text)}&top_k=${TOP_K}`);
+    data = await res.json();
+  } catch (err) {
+    queryResultEl.className = "warning";
+    queryResultEl.textContent = `Query API unreachable (${err.message}). Is query_server.py running on :5001?`;
+    return;
+  }
+
+  currentCandidates = data.results || [];
+  currentCaveat = data.caveat || "";
+
+  if (data.localized) {
+    queryResultEl.className = "match";
+    queryResultEl.innerHTML =
+      `Matched <b>${data.viewpoint_id}</b> (similarity ${data.similarity}` +
+      (data.sift_support != null ? `, ${data.sift_support} supporting SIFT points` : "") +
+      `) — camera moved to that viewpoint. Use the panel on the right to see the source ` +
+      `photo or step through the ${currentCandidates.length} closest matches.` +
+      `<span class="caveat">${data.caveat}</span>`;
+  } else {
+    queryResultEl.className = "warning";
+    queryResultEl.innerHTML = `${data.message}<span class="caveat">${data.caveat}</span>`;
+  }
+
+  showCandidate(0);
+});
+</script>
+</body>
+</html>

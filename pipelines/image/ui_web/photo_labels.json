@@ -1,0 +1,1283 @@
+{
+ "vocabulary": [
+  "blood stain",
+  "body",
+  "evidence marker",
+  "floor",
+  "footprint",
+  "mannequin",
+  "shoe",
+  "weapon"
+ ],
+ "generated_from": {
+  "lookup": "pipelines/image/query/region_lookup.json",
+  "lookup_2d_only": "pipelines/image/query/region_lookup_2d_only.json"
+ },
+ "summary": {
+  "total_images": 30,
+  "registered_images": 20,
+  "unregistered_images": 10
+ },
+ "images": [
+  {
+   "filename": "IMG_0457.jpg",
+   "photo_path": "photos/IMG_0457.jpg",
+   "registered": true,
+   "region_count": 21,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.3072,
+     "region_mask_idx": 5,
+     "bbox_resized": [
+      175,
+      328,
+      153,
+      68
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.3004,
+     "region_mask_idx": 36,
+     "bbox_resized": [
+      48,
+      387,
+      200,
+      129
+     ]
+    },
+    {
+     "label": "footprint",
+     "similarity": 0.2937,
+     "region_mask_idx": 0,
+     "bbox_resized": [
+      259,
+      705,
+      251,
+      200
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0458.jpg",
+   "photo_path": "photos/IMG_0458.jpg",
+   "registered": true,
+   "region_count": 19,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.293,
+     "region_mask_idx": 6,
+     "bbox_resized": [
+      632,
+      0,
+      111,
+      140
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2841,
+     "region_mask_idx": 32,
+     "bbox_resized": [
+      633,
+      0,
+      133,
+      352
+     ]
+    },
+    {
+     "label": "footprint",
+     "similarity": 0.2754,
+     "region_mask_idx": 0,
+     "bbox_resized": [
+      446,
+      882,
+      163,
+      141
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0459.jpg",
+   "photo_path": "photos/IMG_0459.jpg",
+   "registered": true,
+   "region_count": 21,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2978,
+     "region_mask_idx": 1,
+     "bbox_resized": [
+      378,
+      46,
+      272,
+      280
+     ]
+    },
+    {
+     "label": "body",
+     "similarity": 0.287,
+     "region_mask_idx": 4,
+     "bbox_resized": [
+      458,
+      399,
+      115,
+      49
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2678,
+     "region_mask_idx": 21,
+     "bbox_resized": [
+      56,
+      690,
+      136,
+      76
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0460.jpg",
+   "photo_path": "photos/IMG_0460.jpg",
+   "registered": true,
+   "region_count": 20,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2962,
+     "region_mask_idx": 7,
+     "bbox_resized": [
+      613,
+      680,
+      83,
+      140
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2696,
+     "region_mask_idx": 23,
+     "bbox_resized": [
+      146,
+      906,
+      81,
+      117
+     ]
+    },
+    {
+     "label": "mannequin",
+     "similarity": 0.2676,
+     "region_mask_idx": 22,
+     "bbox_resized": [
+      396,
+      130,
+      103,
+      174
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0461.jpg",
+   "photo_path": "photos/IMG_0461.jpg",
+   "registered": true,
+   "region_count": 19,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2942,
+     "region_mask_idx": 15,
+     "bbox_resized": [
+      660,
+      566,
+      107,
+      216
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2689,
+     "region_mask_idx": 14,
+     "bbox_resized": [
+      615,
+      211,
+      152,
+      244
+     ]
+    },
+    {
+     "label": "shoe",
+     "similarity": 0.2678,
+     "region_mask_idx": 8,
+     "bbox_resized": [
+      250,
+      192,
+      148,
+      106
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0462.jpg",
+   "photo_path": "photos/IMG_0462.jpg",
+   "registered": true,
+   "region_count": 25,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2909,
+     "region_mask_idx": 0,
+     "bbox_resized": [
+      486,
+      667,
+      203,
+      99
+     ]
+    },
+    {
+     "label": "body",
+     "similarity": 0.2773,
+     "region_mask_idx": 8,
+     "bbox_resized": [
+      520,
+      355,
+      117,
+      54
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2771,
+     "region_mask_idx": 27,
+     "bbox_resized": [
+      647,
+      0,
+      376,
+      388
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0463.jpg",
+   "photo_path": "photos/IMG_0463.jpg",
+   "registered": true,
+   "region_count": 24,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.3008,
+     "region_mask_idx": 17,
+     "bbox_resized": [
+      0,
+      5,
+      128,
+      308
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2774,
+     "region_mask_idx": 4,
+     "bbox_resized": [
+      563,
+      129,
+      153,
+      202
+     ]
+    },
+    {
+     "label": "mannequin",
+     "similarity": 0.2692,
+     "region_mask_idx": 8,
+     "bbox_resized": [
+      401,
+      554,
+      96,
+      153
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0464.jpg",
+   "photo_path": "photos/IMG_0464.jpg",
+   "registered": true,
+   "region_count": 21,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.29,
+     "region_mask_idx": 1,
+     "bbox_resized": [
+      732,
+      471,
+      243,
+      241
+     ]
+    },
+    {
+     "label": "mannequin",
+     "similarity": 0.2769,
+     "region_mask_idx": 28,
+     "bbox_resized": [
+      225,
+      309,
+      184,
+      102
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2757,
+     "region_mask_idx": 7,
+     "bbox_resized": [
+      434,
+      479,
+      291,
+      246
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0465.jpg",
+   "photo_path": "photos/IMG_0465.jpg",
+   "registered": true,
+   "region_count": 17,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2963,
+     "region_mask_idx": 3,
+     "bbox_resized": [
+      524,
+      689,
+      184,
+      88
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2952,
+     "region_mask_idx": 41,
+     "bbox_resized": [
+      471,
+      592,
+      152,
+      97
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2565,
+     "region_mask_idx": 14,
+     "bbox_resized": [
+      314,
+      587,
+      141,
+      156
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0466.jpg",
+   "photo_path": "photos/IMG_0466.jpg",
+   "registered": false,
+   "region_count": 20,
+   "top_labels": [
+    {
+     "label": "evidence marker",
+     "similarity": 0.2679,
+     "region_mask_idx": 2,
+     "bbox_resized": [
+      250,
+      449,
+      168,
+      155
+     ]
+    },
+    {
+     "label": "blood stain",
+     "similarity": 0.2532,
+     "region_mask_idx": 7,
+     "bbox_resized": [
+      0,
+      0,
+      87,
+      122
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2519,
+     "region_mask_idx": 3,
+     "bbox_resized": [
+      0,
+      409,
+      114,
+      154
+     ]
+    }
+   ],
+   "note": "2D-only -- not part of the 3D reconstruction, cannot be located in the scene."
+  },
+  {
+   "filename": "IMG_0467.jpg",
+   "photo_path": "photos/IMG_0467.jpg",
+   "registered": false,
+   "region_count": 18,
+   "top_labels": [
+    {
+     "label": "floor",
+     "similarity": 0.2703,
+     "region_mask_idx": 20,
+     "bbox_resized": [
+      264,
+      0,
+      261,
+      47
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2673,
+     "region_mask_idx": 14,
+     "bbox_resized": [
+      115,
+      377,
+      173,
+      108
+     ]
+    },
+    {
+     "label": "shoe",
+     "similarity": 0.255,
+     "region_mask_idx": 15,
+     "bbox_resized": [
+      933,
+      0,
+      90,
+      55
+     ]
+    }
+   ],
+   "note": "2D-only -- not part of the 3D reconstruction, cannot be located in the scene."
+  },
+  {
+   "filename": "IMG_0468.jpg",
+   "photo_path": "photos/IMG_0468.jpg",
+   "registered": false,
+   "region_count": 11,
+   "top_labels": [
+    {
+     "label": "evidence marker",
+     "similarity": 0.265,
+     "region_mask_idx": 2,
+     "bbox_resized": [
+      0,
+      636,
+      1023,
+      130
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2524,
+     "region_mask_idx": 22,
+     "bbox_resized": [
+      121,
+      0,
+      90,
+      531
+     ]
+    },
+    {
+     "label": "shoe",
+     "similarity": 0.2499,
+     "region_mask_idx": 22,
+     "bbox_resized": [
+      121,
+      0,
+      90,
+      531
+     ]
+    }
+   ],
+   "note": "2D-only -- not part of the 3D reconstruction, cannot be located in the scene."
+  },
+  {
+   "filename": "IMG_0469.jpg",
+   "photo_path": "photos/IMG_0469.jpg",
+   "registered": true,
+   "region_count": 16,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2914,
+     "region_mask_idx": 4,
+     "bbox_resized": [
+      290,
+      667,
+      161,
+      88
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2914,
+     "region_mask_idx": 46,
+     "bbox_resized": [
+      220,
+      606,
+      153,
+      81
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2643,
+     "region_mask_idx": 42,
+     "bbox_resized": [
+      6,
+      588,
+      303,
+      179
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0470.jpg",
+   "photo_path": "photos/IMG_0470.jpg",
+   "registered": true,
+   "region_count": 8,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2626,
+     "region_mask_idx": 13,
+     "bbox_resized": [
+      496,
+      367,
+      299,
+      231
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2535,
+     "region_mask_idx": 16,
+     "bbox_resized": [
+      221,
+      359,
+      276,
+      224
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2358,
+     "region_mask_idx": 3,
+     "bbox_resized": [
+      927,
+      497,
+      96,
+      193
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0471.jpg",
+   "photo_path": "photos/IMG_0471.jpg",
+   "registered": false,
+   "region_count": 13,
+   "top_labels": [
+    {
+     "label": "evidence marker",
+     "similarity": 0.2677,
+     "region_mask_idx": 14,
+     "bbox_resized": [
+      54,
+      295,
+      334,
+      344
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2647,
+     "region_mask_idx": 6,
+     "bbox_resized": [
+      172,
+      415,
+      155,
+      152
+     ]
+    },
+    {
+     "label": "blood stain",
+     "similarity": 0.2457,
+     "region_mask_idx": 1,
+     "bbox_resized": [
+      571,
+      471,
+      91,
+      113
+     ]
+    }
+   ],
+   "note": "2D-only -- not part of the 3D reconstruction, cannot be located in the scene."
+  },
+  {
+   "filename": "IMG_0472.jpg",
+   "photo_path": "photos/IMG_0472.jpg",
+   "registered": false,
+   "region_count": 12,
+   "top_labels": [
+    {
+     "label": "evidence marker",
+     "similarity": 0.2884,
+     "region_mask_idx": 2,
+     "bbox_resized": [
+      183,
+      96,
+      239,
+      145
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.263,
+     "region_mask_idx": 22,
+     "bbox_resized": [
+      235,
+      147,
+      123,
+      70
+     ]
+    },
+    {
+     "label": "footprint",
+     "similarity": 0.2354,
+     "region_mask_idx": 2,
+     "bbox_resized": [
+      183,
+      96,
+      239,
+      145
+     ]
+    }
+   ],
+   "note": "2D-only -- not part of the 3D reconstruction, cannot be located in the scene."
+  },
+  {
+   "filename": "IMG_0473.jpg",
+   "photo_path": "photos/IMG_0473.jpg",
+   "registered": false,
+   "region_count": 12,
+   "top_labels": [
+    {
+     "label": "evidence marker",
+     "similarity": 0.2872,
+     "region_mask_idx": 2,
+     "bbox_resized": [
+      319,
+      48,
+      348,
+      167
+     ]
+    },
+    {
+     "label": "shoe",
+     "similarity": 0.2591,
+     "region_mask_idx": 16,
+     "bbox_resized": [
+      693,
+      321,
+      163,
+      126
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2541,
+     "region_mask_idx": 2,
+     "bbox_resized": [
+      319,
+      48,
+      348,
+      167
+     ]
+    }
+   ],
+   "note": "2D-only -- not part of the 3D reconstruction, cannot be located in the scene."
+  },
+  {
+   "filename": "IMG_0474.jpg",
+   "photo_path": "photos/IMG_0474.jpg",
+   "registered": false,
+   "region_count": 30,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.3004,
+     "region_mask_idx": 6,
+     "bbox_resized": [
+      0,
+      275,
+      135,
+      107
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2706,
+     "region_mask_idx": 6,
+     "bbox_resized": [
+      0,
+      275,
+      135,
+      107
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2552,
+     "region_mask_idx": 7,
+     "bbox_resized": [
+      0,
+      86,
+      209,
+      197
+     ]
+    }
+   ],
+   "note": "2D-only -- not part of the 3D reconstruction, cannot be located in the scene."
+  },
+  {
+   "filename": "IMG_0475.jpg",
+   "photo_path": "photos/IMG_0475.jpg",
+   "registered": false,
+   "region_count": 17,
+   "top_labels": [
+    {
+     "label": "evidence marker",
+     "similarity": 0.2663,
+     "region_mask_idx": 35,
+     "bbox_resized": [
+      323,
+      0,
+      188,
+      525
+     ]
+    },
+    {
+     "label": "shoe",
+     "similarity": 0.2473,
+     "region_mask_idx": 1,
+     "bbox_resized": [
+      89,
+      0,
+      67,
+      293
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2453,
+     "region_mask_idx": 1,
+     "bbox_resized": [
+      89,
+      0,
+      67,
+      293
+     ]
+    }
+   ],
+   "note": "2D-only -- not part of the 3D reconstruction, cannot be located in the scene."
+  },
+  {
+   "filename": "IMG_0476.jpg",
+   "photo_path": "photos/IMG_0476.jpg",
+   "registered": true,
+   "region_count": 3,
+   "top_labels": [
+    {
+     "label": "evidence marker",
+     "similarity": 0.2459,
+     "region_mask_idx": 26,
+     "bbox_resized": [
+      736,
+      96,
+      264,
+      219
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2411,
+     "region_mask_idx": 0,
+     "bbox_resized": [
+      789,
+      141,
+      103,
+      64
+     ]
+    },
+    {
+     "label": "shoe",
+     "similarity": 0.2335,
+     "region_mask_idx": 0,
+     "bbox_resized": [
+      789,
+      141,
+      103,
+      64
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0477.jpg",
+   "photo_path": "photos/IMG_0477.jpg",
+   "registered": true,
+   "region_count": 17,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.301,
+     "region_mask_idx": 10,
+     "bbox_resized": [
+      371,
+      488,
+      130,
+      58
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2878,
+     "region_mask_idx": 10,
+     "bbox_resized": [
+      371,
+      488,
+      130,
+      58
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2553,
+     "region_mask_idx": 7,
+     "bbox_resized": [
+      219,
+      545,
+      165,
+      82
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0478.jpg",
+   "photo_path": "photos/IMG_0478.jpg",
+   "registered": true,
+   "region_count": 11,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2896,
+     "region_mask_idx": 1,
+     "bbox_resized": [
+      615,
+      610,
+      159,
+      92
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2642,
+     "region_mask_idx": 27,
+     "bbox_resized": [
+      0,
+      434,
+      446,
+      137
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2626,
+     "region_mask_idx": 38,
+     "bbox_resized": [
+      0,
+      356,
+      1023,
+      410
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0479.jpg",
+   "photo_path": "photos/IMG_0479.jpg",
+   "registered": true,
+   "region_count": 5,
+   "top_labels": [
+    {
+     "label": "evidence marker",
+     "similarity": 0.2983,
+     "region_mask_idx": 50,
+     "bbox_resized": [
+      159,
+      675,
+      132,
+      66
+     ]
+    },
+    {
+     "label": "blood stain",
+     "similarity": 0.2739,
+     "region_mask_idx": 50,
+     "bbox_resized": [
+      159,
+      675,
+      132,
+      66
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2643,
+     "region_mask_idx": 48,
+     "bbox_resized": [
+      0,
+      498,
+      766,
+      525
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0480.jpg",
+   "photo_path": "photos/IMG_0480.jpg",
+   "registered": true,
+   "region_count": 11,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2774,
+     "region_mask_idx": 4,
+     "bbox_resized": [
+      0,
+      386,
+      129,
+      146
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2745,
+     "region_mask_idx": 21,
+     "bbox_resized": [
+      254,
+      853,
+      121,
+      64
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.251,
+     "region_mask_idx": 15,
+     "bbox_resized": [
+      535,
+      576,
+      90,
+      118
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0481.jpg",
+   "photo_path": "photos/IMG_0481.jpg",
+   "registered": true,
+   "region_count": 15,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2993,
+     "region_mask_idx": 6,
+     "bbox_resized": [
+      565,
+      449,
+      198,
+      90
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2806,
+     "region_mask_idx": 5,
+     "bbox_resized": [
+      725,
+      511,
+      195,
+      98
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2502,
+     "region_mask_idx": 25,
+     "bbox_resized": [
+      0,
+      318,
+      1023,
+      447
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0482.jpg",
+   "photo_path": "photos/IMG_0482.jpg",
+   "registered": false,
+   "region_count": 16,
+   "top_labels": [
+    {
+     "label": "floor",
+     "similarity": 0.2622,
+     "region_mask_idx": 11,
+     "bbox_resized": [
+      0,
+      537,
+      253,
+      218
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2561,
+     "region_mask_idx": 4,
+     "bbox_resized": [
+      335,
+      0,
+      54,
+      318
+     ]
+    },
+    {
+     "label": "shoe",
+     "similarity": 0.2453,
+     "region_mask_idx": 6,
+     "bbox_resized": [
+      827,
+      518,
+      196,
+      67
+     ]
+    }
+   ],
+   "note": "2D-only -- not part of the 3D reconstruction, cannot be located in the scene."
+  },
+  {
+   "filename": "IMG_0483.jpg",
+   "photo_path": "photos/IMG_0483.jpg",
+   "registered": false,
+   "region_count": 5,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2577,
+     "region_mask_idx": 16,
+     "bbox_resized": [
+      603,
+      272,
+      266,
+      96
+     ]
+    },
+    {
+     "label": "shoe",
+     "similarity": 0.2535,
+     "region_mask_idx": 13,
+     "bbox_resized": [
+      0,
+      728,
+      240,
+      39
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2528,
+     "region_mask_idx": 2,
+     "bbox_resized": [
+      605,
+      488,
+      264,
+      28
+     ]
+    }
+   ],
+   "note": "2D-only -- not part of the 3D reconstruction, cannot be located in the scene."
+  },
+  {
+   "filename": "IMG_0484.jpg",
+   "photo_path": "photos/IMG_0484.jpg",
+   "registered": true,
+   "region_count": 2,
+   "top_labels": [
+    {
+     "label": "shoe",
+     "similarity": 0.2504,
+     "region_mask_idx": 31,
+     "bbox_resized": [
+      618,
+      136,
+      111,
+      411
+     ]
+    },
+    {
+     "label": "floor",
+     "similarity": 0.2407,
+     "region_mask_idx": 31,
+     "bbox_resized": [
+      618,
+      136,
+      111,
+      411
+     ]
+    },
+    {
+     "label": "weapon",
+     "similarity": 0.2404,
+     "region_mask_idx": 31,
+     "bbox_resized": [
+      618,
+      136,
+      111,
+      411
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0485.jpg",
+   "photo_path": "photos/IMG_0485.jpg",
+   "registered": true,
+   "region_count": 17,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2918,
+     "region_mask_idx": 2,
+     "bbox_resized": [
+      180,
+      613,
+      156,
+      61
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2781,
+     "region_mask_idx": 35,
+     "bbox_resized": [
+      366,
+      273,
+      126,
+      48
+     ]
+    },
+    {
+     "label": "mannequin",
+     "similarity": 0.2579,
+     "region_mask_idx": 15,
+     "bbox_resized": [
+      648,
+      681,
+      186,
+      86
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  },
+  {
+   "filename": "IMG_0486.jpg",
+   "photo_path": "photos/IMG_0486.jpg",
+   "registered": true,
+   "region_count": 22,
+   "top_labels": [
+    {
+     "label": "blood stain",
+     "similarity": 0.2989,
+     "region_mask_idx": 3,
+     "bbox_resized": [
+      9,
+      406,
+      203,
+      128
+     ]
+    },
+    {
+     "label": "evidence marker",
+     "similarity": 0.2899,
+     "region_mask_idx": 37,
+     "bbox_resized": [
+      425,
+      172,
+      261,
+      170
+     ]
+    },
+    {
+     "label": "shoe",
+     "similarity": 0.2637,
+     "region_mask_idx": 30,
+     "bbox_resized": [
+      369,
+      663,
+      80,
+      116
+     ]
+    }
+   ],
+   "note": "3D-queryable (COLMAP-registered)."
+  }
+ ]
+}
