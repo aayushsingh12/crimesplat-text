@@ -78,6 +78,31 @@ python -m crimetext.extract cases/short_family chunk_003.json
 | **Scene from photos** | The image pipeline: the splat, its source viewpoints, text search in the scene, the photo set, and the pipeline's requirements and run button. |
 | **Scene from video** | The connection to the video pipeline: store footage with its hash, start the pipeline on it, and import the finished scene into the case. |
 
+### Analysis and Workbook
+
+**Analysis** is recomputed from the claims on every visit, so it follows review decisions.
+
+- **Points to compare.** Places where the file says two things about one subject: suspected and
+  later cleared, found at more than one place, stated as fact in one passage and alleged in
+  another, the same fact on different dates, differing descriptions of an unidentified person.
+  Both passages are shown side by side with no verdict. Items can be dismissed or turned into
+  an action.
+- **Corroboration.** How many passages repeat each fact, and which accusations (killing,
+  abduction, suspicion, arrest, charge) rest on a single passage.
+- **Leads and gaps.** People who gave information with no interview recorded, people and
+  vehicles still unidentified, items collected with no examination recorded, and stretches
+  around the incident with nothing recorded for a key person. Each means "no record in this
+  file", not "not done".
+- **Connection finder.** The shortest chain of claims linking any two entities.
+- **Person dossier** and **Case brief.** One printable page per person, and a printable summary
+  of the case with open points, actions and hypotheses.
+
+**Workbook** is the investigator's own record, stored under `casework/` and kept apart from the
+graph: actions (with assignee and due date, tied to a claim, person or event), notes, and
+hypotheses. A hypothesis collects claims marked as supporting or contradicting it and shows the
+balance weighted by claim confidence. Any claim, entity or event in the investigation has
+"+ Action", "+ Note" and "Add to hypothesis" at the top of the inspector.
+
 ### Human review
 
 Every claim gets a confidence between 0 and 1 from fixed rules (`crimetext/review.py`): the strength
