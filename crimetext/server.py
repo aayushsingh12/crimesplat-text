@@ -10,7 +10,7 @@ import json
 import urllib.parse
 from pathlib import Path
 
-from . import extract, fuse, imagepipe, ingest, review, scenes
+from . import extract, fuse, imagepipe, ingest, review, scenes, videopipe
 
 ROOT = Path(__file__).resolve().parent.parent
 IMG = (".jpg", ".jpeg", ".png", ".webp")
@@ -54,9 +54,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if url.path == "/api/image_pipeline":
                 return self._json(imagepipe.status(self.case_dir, q.get("scene", "")))
             if url.path == "/api/video":
-                d = self.case_dir / "video"
-                files = [{"file": p.name, "bytes": p.stat().st_size} for p in sorted(d.iterdir()) if p.suffix.lower() in VID] if d.exists() else []
-                return self._json({"files": files})
+                return self._json(videopipe.status(self.case_dir))
         except Exception as e:
             return self._json({"error": str(e)}, 400)
         return super().do_GET()
@@ -104,6 +102,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     out = {"log": done}
                 elif url.path == "/api/rebuild":
                     out = {}
+                elif url.path == "/api/video/run":
+                    out, rebuild = videopipe.run(c, body["file"], body.get("footage", "handheld"), body.get("location", ""), body.get("title", "")), False
                 elif url.path == "/api/image_pipeline/run":
                     out, rebuild = imagepipe.run(c, body["scene"]), False
                 else:
