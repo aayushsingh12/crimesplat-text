@@ -1,0 +1,366 @@
+[
+ {
+  "id": "E001",
+  "kind": "webpage",
+  "title": "Short family homicide and abduction (case page)",
+  "url": "https://crimetimelines.com/crime-news/cold-case/who-killed-jennifer-short/",
+  "sha256": "5f2955f62f58138f8caa327110fc932f5537bb507d267511557c8a26a5cb2c11",
+  "path": "raw/page.html"
+ },
+ {
+  "id": "E002",
+  "kind": "link",
+  "url": "http://www.martinsvillebulletin.com/article.cfm?ID=16626",
+  "title": "martinsvillebulletin.com/article.cfm?ID=16626"
+ },
+ {
+  "id": "E003",
+  "kind": "link",
+  "url": "https://archive.is/LpqLJ",
+  "title": "archive.is/LpqLJ"
+ },
+ {
+  "id": "E004",
+  "kind": "link",
+  "url": "https://coldcase.vsp.virginia.gov/virginia-state-police/case/virginia-state-police-case-02-19828/",
+  "title": "coldcase.vsp.virginia.gov/virginia-state-police/case/virginia-state-po"
+ },
+ {
+  "id": "E005",
+  "kind": "link",
+  "url": "https://crimetimelines.com/closed-case-files/",
+  "title": "crimetimelines.com/closed-case-files/"
+ },
+ {
+  "id": "E006",
+  "kind": "link",
+  "url": "https://crimetimelines.com/crimetimelines-case-tools/",
+  "title": "crimetimelines.com/crimetimelines-case-tools/"
+ },
+ {
+  "id": "E007",
+  "kind": "link",
+  "url": "https://crimetimelines.com/disaster-resource-center/",
+  "title": "crimetimelines.com/disaster-resource-center/"
+ },
+ {
+  "id": "E008",
+  "kind": "link",
+  "url": "https://crimetimelines.com/missing-and-murdered-indigenous-people/",
+  "title": "crimetimelines.com/missing-and-murdered-indigenous-people/"
+ },
+ {
+  "id": "E009",
+  "kind": "link",
+  "url": "https://crimetimelines.com/missing-persons/",
+  "title": "crimetimelines.com/missing-persons/"
+ },
+ {
+  "id": "E010",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1-w9J53eN5KkFVMe76o_qk2GnFP5tzwnf/view?usp=sharing",
+  "title": "Case file E010 (scan)",
+  "path": "raw/files/E010_1-w9J53e.pdf",
+  "sha256": "1f1d4d297d10f95ad7f44c2de618d15ec810bd6730eccfefcee2ba5b19f9b5f8",
+  "bytes": 2900049,
+  "text_path": "raw/files/E010_1-w9J53e.txt"
+ },
+ {
+  "id": "E011",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/10ealTQpEE4nCKC0L8pR8nubFN0maDrRp/view?usp=sharing",
+  "title": "Case file E011 (scan)",
+  "path": "raw/files/E011_10ealTQp.pdf",
+  "sha256": "556b5b6fad6f6fbab65e85ca79762260238d5c9f76d006787bfae6557923e732",
+  "bytes": 1827060,
+  "text_path": "raw/files/E011_10ealTQp.txt"
+ },
+ {
+  "id": "E012",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/19bXTBS7-YlrQrwgt5nM6LZkVGFI2I2vc/view?usp=sharing",
+  "title": "Case file E012 (scan)",
+  "path": "raw/files/E012_19bXTBS7.pdf",
+  "sha256": "8cd0023957aa95cb5b49cdd8165b5f892b0d276e8844813db904937d34c31686",
+  "bytes": 8406550,
+  "text_path": "raw/files/E012_19bXTBS7.txt"
+ },
+ {
+  "id": "E013",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1AK8xNNB5q7RozN3yRGj1Des6dyDgr1zX/view?usp=sharing",
+  "title": "Case file E013 (scan)",
+  "path": "raw/files/E013_1AK8xNNB.pdf",
+  "sha256": "d2b3c6994b37e4607f08ddb76d38d0c8c3132709b15037db52532fc1890f2846",
+  "bytes": 3769161,
+  "text_path": "raw/files/E013_1AK8xNNB.txt"
+ },
+ {
+  "id": "E014",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1BrYrXePfUObzPx89AMVVqmgdzwBzTJCM/view?usp=sharing",
+  "title": "Case file E014 (scan)",
+  "path": "raw/files/E014_1BrYrXeP.pdf",
+  "sha256": "4e4fb955f7a02d2caa7e8b0219ac400afc873b2eefd9a28d991c62941c8f0205",
+  "bytes": 3274449,
+  "text_path": "raw/files/E014_1BrYrXeP.txt"
+ },
+ {
+  "id": "E015",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1Gzw9QquNfHua-jKz_3OuDzYCs3blWG9H/view?usp=sharing",
+  "title": "Case file E015 (scan)",
+  "path": "raw/files/E015_1Gzw9Qqu.pdf",
+  "sha256": "32477cda2b8d2ff8b9bd3ba06c30178c82d00fd077e11db04ecbf779805e7f68",
+  "bytes": 3499183,
+  "text_path": "raw/files/E015_1Gzw9Qqu.txt"
+ },
+ {
+  "id": "E016",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1NsZHT4at97kEjmOBOh-y-yPKQF_RQJW4/view?usp=sharing",
+  "title": "Case file E016 (scan)",
+  "path": "raw/files/E016_1NsZHT4a.pdf",
+  "sha256": "ed9a43ef396891bd7c88c3bef9dad95466cf7ea6c4bfb0adb9377cef783e4ed4",
+  "bytes": 626714,
+  "text_path": "raw/files/E016_1NsZHT4a.txt"
+ },
+ {
+  "id": "E017",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1RK5gcoI9cvk4Bm7GQ0r-PQ6eyvRLJE2P/view?usp=sharing",
+  "title": "Case file E017 (scan)",
+  "path": "raw/files/E017_1RK5gcoI.pdf",
+  "sha256": "20e3bec2df68b2ab51a74946f290435a59f7fd99a76f798f958824d6a9ab1f13",
+  "bytes": 3034862,
+  "text_path": "raw/files/E017_1RK5gcoI.txt"
+ },
+ {
+  "id": "E018",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1TySHe4BFDlVjqiMJn7vqfUWjPxBazhnY/view?usp=sharing",
+  "title": "Case file E018 (scan)",
+  "path": "raw/files/E018_1TySHe4B.pdf",
+  "sha256": "78d1a70bbd2d7599c97087f3442504779eb74967df21c12f763e710096971162",
+  "bytes": 3904904,
+  "text_path": "raw/files/E018_1TySHe4B.txt"
+ },
+ {
+  "id": "E019",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1dJa8ZS6bF2GpQdmXqDsDJeC40ugSbGr-/view?usp=sharing",
+  "title": "Case file E019 (scan)",
+  "path": "raw/files/E019_1dJa8ZS6.pdf",
+  "sha256": "5a822a269436b73bbe67034a61ba5d5c9109b1e43fb5e8487dacb26415474b8c",
+  "bytes": 3434350,
+  "text_path": "raw/files/E019_1dJa8ZS6.txt"
+ },
+ {
+  "id": "E020",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1k3tDYzZrVwerZdXjvGmqzOmmbpGUuRcq/view?usp=sharing",
+  "title": "Case file E020 (scan)",
+  "path": "raw/files/E020_1k3tDYzZ.pdf",
+  "sha256": "cdce580cd7434d2e9ebbee055d19fb79b6fec5d4d8979917ccfb4f9d510c0900",
+  "bytes": 3591098,
+  "text_path": "raw/files/E020_1k3tDYzZ.txt"
+ },
+ {
+  "id": "E021",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1lD1dpVXz85CnK1T3RqnI8cdxagc8GWKd/view?usp=sharing",
+  "title": "Case file E021 (scan)",
+  "path": "raw/files/E021_1lD1dpVX.pdf",
+  "sha256": "c33ac473227598ad88efd5380deeabd839d0bccb402e8c555daa48a8ad9e05ac",
+  "bytes": 2900049,
+  "text_path": "raw/files/E021_1lD1dpVX.txt"
+ },
+ {
+  "id": "E022",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1r66Tx01lPkfwPkFqaRTpWdjBZ4EnQD3p/view?usp=sharing",
+  "title": "Case file E022 (scan)",
+  "path": "raw/files/E022_1r66Tx01.pdf",
+  "sha256": "a6e7db4c7ed91591364e487d54a790930d3a2144120f210ebc3efaa89961c2cb",
+  "bytes": 550606,
+  "text_path": "raw/files/E022_1r66Tx01.txt"
+ },
+ {
+  "id": "E023",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1s-DmeaT9anCMDI9jNYlkYg20M9dDox3a/view?usp=sharing",
+  "title": "Case file E023 (scan)",
+  "path": "raw/files/E023_1s-DmeaT.pdf",
+  "sha256": "55078d89ac7b409c75a0266f89fcccdeb7f7abf30948872234ea903b3163289c",
+  "bytes": 161852,
+  "text_path": "raw/files/E023_1s-DmeaT.txt"
+ },
+ {
+  "id": "E024",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1wXwREAjgAC0jjr1Y86hclL-4AaJllgsT/view?usp=sharing",
+  "title": "Case file E024 (scan)",
+  "path": "raw/files/E024_1wXwREAj.pdf",
+  "sha256": "7891d579d3ea5a7426ac36d07c90f65917c0af7ed2df9b858814f66705076cce",
+  "bytes": 3723840,
+  "text_path": "raw/files/E024_1wXwREAj.txt"
+ },
+ {
+  "id": "E025",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1ya1EFaspf1P6LF7jmUKONil2JpUC9osD/view?usp=sharing",
+  "title": "Case file E025 (scan)",
+  "path": "raw/files/E025_1ya1EFas.pdf",
+  "sha256": "b2ec84f8a240e18da0e622039ec58664b90b2d4f707a66217765af038d42fc6a",
+  "bytes": 5844956,
+  "text_path": "raw/files/E025_1ya1EFas.txt"
+ },
+ {
+  "id": "E026",
+  "kind": "file",
+  "url": "https://drive.google.com/file/d/1zgcgKyDVcL1AhsjxwAqhk1P090CNEfQ1/view?usp=sharing",
+  "title": "Case file E026 (scan)",
+  "path": "raw/files/E026_1zgcgKyD.pdf",
+  "sha256": "bcc8ba385d785589f5f22efc275745f94ce985763df09147e5b9e4cb23491726",
+  "bytes": 1109523,
+  "text_path": "raw/files/E026_1zgcgKyD.txt"
+ },
+ {
+  "id": "E027",
+  "kind": "link",
+  "url": "https://henrycountyenterprise.com/23-years-in-investigators-still-pursue-justice-in-short-family-killings/",
+  "title": "henrycountyenterprise.com/23-years-in-investigators-still-pursue-justi"
+ },
+ {
+  "id": "E028",
+  "kind": "link",
+  "url": "https://law.justia.com/cases/federal/appellate-courts/ca4/06-4971/064971.u-2011-03-14.html",
+  "title": "law.justia.com/cases/federal/appellate-courts/ca4/06-4971/064971.u-201"
+ },
+ {
+  "id": "E029",
+  "kind": "link",
+  "url": "https://scholar.lib.vt.edu/VA-news/ROA-Times/issues/1997/rt9701/970128/01280046.htm",
+  "title": "scholar.lib.vt.edu/VA-news/ROA-Times/issues/1997/rt9701/970128/0128004"
+ },
+ {
+  "id": "E030",
+  "kind": "link",
+  "url": "https://scholar.lib.vt.edu/VA-news/WDBJ-7/script_archives/02/0802/082502/082502.m.htm",
+  "title": "scholar.lib.vt.edu/VA-news/WDBJ-7/script_archives/02/0802/082502/08250"
+ },
+ {
+  "id": "E031",
+  "kind": "link",
+  "url": "https://scholar.lib.vt.edu/VA-news/WDBJ-7/script_archives/02/0902/093002/093002.6.htm",
+  "title": "scholar.lib.vt.edu/VA-news/WDBJ-7/script_archives/02/0902/093002/09300"
+ },
+ {
+  "id": "E032",
+  "kind": "link",
+  "url": "https://scholar.lib.vt.edu/VA-news/WDBJ-7/script_archives/02/1002/100702/100702.6.htm",
+  "title": "scholar.lib.vt.edu/VA-news/WDBJ-7/script_archives/02/1002/100702/10070"
+ },
+ {
+  "id": "E033",
+  "kind": "link",
+  "url": "https://web.archive.org/web/20080916234529/http://www.fbi.gov/wanted/seekinfo/short_j2.htm",
+  "title": "web.archive.org/web/20080916234529/http://www.fbi.gov/wanted/seekinfo/"
+ },
+ {
+  "id": "E034",
+  "kind": "link",
+  "url": "https://web.archive.org/web/20110126014436/https://www.fbi.gov/wanted/seeking-info/jennifer-short/",
+  "title": "web.archive.org/web/20110126014436/https://www.fbi.gov/wanted/seeking-"
+ },
+ {
+  "id": "E035",
+  "kind": "link",
+  "url": "https://web.archive.org/web/20161224004220/https://www2.fbi.gov/wanted/seekinfo/short_j2.htm",
+  "title": "web.archive.org/web/20161224004220/https://www2.fbi.gov/wanted/seekinf"
+ },
+ {
+  "id": "E036",
+  "kind": "link",
+  "url": "https://www.buildzoom.com/contractor/ms-mobile-home-movers-inc",
+  "title": "buildzoom.com/contractor/ms-mobile-home-movers-inc"
+ },
+ {
+  "id": "E037",
+  "kind": "link",
+  "url": "https://www.ca4.uscourts.gov/opinions/Unpublished/064971.U.pdf",
+  "title": "ca4.uscourts.gov/opinions/Unpublished/064971.U.pdf"
+ },
+ {
+  "id": "E038",
+  "kind": "link",
+  "url": "https://www.cbsnews.com/news/townspeople-mourn-jennifer-short",
+  "title": "cbsnews.com/news/townspeople-mourn-jennifer-short"
+ },
+ {
+  "id": "E039",
+  "kind": "link",
+  "url": "https://www.dea.gov/press-releases/2006/11/02/sheriff-12-deputies-among-those-arrested-drug-racketeering-charges",
+  "title": "dea.gov/press-releases/2006/11/02/sheriff-12-deputies-among-those-arre"
+ },
+ {
+  "id": "E040",
+  "kind": "link",
+  "url": "https://www.facebook.com/henrycountysheriff/photos/a.783905308321255/4653952994649781",
+  "title": "facebook.com/henrycountysheriff/photos/a.783905308321255/4653952994649"
+ },
+ {
+  "id": "E041",
+  "kind": "link",
+  "url": "https://www.facebook.com/photo/?fbid=1197411590303956&set=a.297560615735881",
+  "title": "facebook.com/photo/?fbid=1197411590303956&set=a.297560615735881"
+ },
+ {
+  "id": "E042",
+  "kind": "link",
+  "url": "https://www.fbi.gov/contact-us/field-offices",
+  "title": "fbi.gov/contact-us/field-offices"
+ },
+ {
+  "id": "E043",
+  "kind": "link",
+  "url": "https://www.forensicmag.com/580232-More-Agencies-Looking-at-Evidence-in-Murder-of-Short-Family-in-2002/",
+  "title": "forensicmag.com/580232-More-Agencies-Looking-at-Evidence-in-Murder-of-"
+ },
+ {
+  "id": "E044",
+  "kind": "link",
+  "url": "https://www.forensicmag.com/580232-More-Agencies-Looking-at-Evidence-in-Murder-of-Short-Family-in-2002/?utm_source=chatgpt.com",
+  "title": "forensicmag.com/580232-More-Agencies-Looking-at-Evidence-in-Murder-of-"
+ },
+ {
+  "id": "E045",
+  "kind": "link",
+  "url": "https://www.foxnews.com/story/canadian-officials-investigating-witness-in-jennifer-short-case.amp",
+  "title": "foxnews.com/story/canadian-officials-investigating-witness-in-jennifer"
+ },
+ {
+  "id": "E046",
+  "kind": "link",
+  "url": "https://www.henrycountyva.gov/ArchiveCenter/ViewFile/Item/67",
+  "title": "henrycountyva.gov/ArchiveCenter/ViewFile/Item/67"
+ },
+ {
+  "id": "E047",
+  "kind": "link",
+  "url": "https://www.oxygen.com/crime-news/short-family-triple-homicide-haunts-virginia-20-years-later",
+  "title": "oxygen.com/crime-news/short-family-triple-homicide-haunts-virginia-20-"
+ },
+ {
+  "id": "E048",
+  "kind": "link",
+  "url": "https://www.wmbfnews.com/story/12484037/2002-triple-murder-investigation-heads-to-grand-strand-pee-dee/",
+  "title": "wmbfnews.com/story/12484037/2002-triple-murder-investigation-heads-to-"
+ },
+ {
+  "id": "E049",
+  "kind": "link",
+  "url": "https://www2.fbi.gov/wanted/seekinfo/short_j2.htm",
+  "title": "www2.fbi.gov/wanted/seekinfo/short_j2.htm"
+ }
+]
