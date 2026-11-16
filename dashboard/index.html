@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Desk</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="top">
+  <div class="brand">CASE DESK</div>
+  <div id="case-title"></div>
+  <div id="stats"></div>
+  <div class="spacer"></div>
+  <input id="search" type="search" placeholder="Find a person, place, object…" autocomplete="off">
+  <div id="search-results" class="pop hidden"></div>
+</header>
+
+<main>
+  <aside id="left">
+    <nav class="tabs" data-for="left">
+      <button data-tab="events" class="on">Events</button>
+      <button data-tab="sources">Sources</button>
+      <button data-tab="photos">Photos</button>
+      <button data-tab="entities">Entities</button>
+    </nav>
+    <div id="tab-events" class="tab on"></div>
+    <div id="tab-sources" class="tab"></div>
+    <div id="tab-photos" class="tab"></div>
+    <div id="tab-entities" class="tab"></div>
+  </aside>
+
+  <section id="stage">
+    <div id="stage-head">
+      <div id="now"></div>
+      <div class="spacer"></div>
+      <div class="seg" id="mode">
+        <button data-mode="event" class="on" title="Only what is asserted for the event(s) under the playhead">Event</button>
+        <button data-mode="cumulative" title="Everything asserted up to the playhead">Up to now</button>
+        <button data-mode="focus" title="Every claim about the selected entity, any time">Entity</button>
+      </div>
+    </div>
+    <div id="now-events"></div>
+    <div id="filters"></div>
+    <svg id="graph"></svg>
+    <div id="empty" class="hidden"></div>
+    <div id="legend"></div>
+  </section>
+
+  <aside id="right">
+    <div class="panel-title">Inspector</div>
+    <div id="inspector"></div>
+  </aside>
+</main>
+
+<footer id="timeline">
+  <div id="transport">
+    <button id="prev" title="Previous event ( [ )">⏮</button>
+    <button id="play" title="Play / pause (space)">▶</button>
+    <button id="next" title="Next event ( ] )">⏭</button>
+    <select id="speed" title="Playback speed">
+      <option value="1">event / 2.5 s</option>
+      <option value="2">event / 1.2 s</option>
+      <option value="0.5">event / 5 s</option>
+    </select>
+    <div id="clock"></div>
+    <div class="spacer"></div>
+    <span class="hint">drag to scrub · wheel to zoom · shift-drag to pan</span>
+    <button id="fit-incident">Incident</button>
+    <button id="fit-all">Full case</button>
+  </div>
+  <svg id="overview"></svg>
+  <div id="tracks-wrap"><svg id="tracks"></svg></div>
+</footer>
+
+<div id="lightbox" class="hidden"><img alt=""><div class="cap"></div></div>
+<script src="vendor/d3.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
