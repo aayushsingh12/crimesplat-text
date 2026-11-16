@@ -87,6 +87,40 @@ def add(case_dir: Path, source: Path, scene_id: str, title: str, location: str, 
     return meta
 
 
+def add_package(case_dir: Path, package: Path, scene_id: str, title: str, location: str, note="", log=print):
+    """Import a Scene Package written by the video pipeline (crimesplat-video): splat, camera path,
+    frame thumbnails. The camera path becomes views.json in the convention the viewer already uses."""
+    man = json.loads((package / "manifest.json").read_text())
+    splat = package / man["scene"]["splat"]
+    dest = case_dir / "scenes" / scene_id
+    (dest / "photos").mkdir(parents=True, exist_ok=True)
+    out = dest / ("scene" + splat.suffix.lower())
+    shutil.copy2(splat, out)
+    up = man.get("up", [0, 1, 0])
+    meta = {"id": scene_id, "title": title, "location": location, "note": note, "units": man.get("units", "unitless"),
+            "up": "xyz"[max(range(3), key=lambda i: abs(up[i]))], "pipeline": "video (crimesplat-video: COLMAP + gsplat MCMC)",
+            "added_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "splat": out.name, "splat_sha256": _sha(out),
+            "splat_bytes": out.stat().st_size, "quality": man.get("quality"),
+            "source_media": [{k: s.get(k) for k in ("id", "sha256", "duration_s", "fps")} for s in man.get("sources", [])]}
+    traj = package / man["scene"].get("trajectory", "_none_")
+    if traj.is_file():
+        cams = []
+        for f in json.loads(traj.read_text())["frames"]:
+            m = f["c2w"]            # OpenCV camera-to-world -> the viewer's +Z-forward convention: R * diag(-1, -1, 1)
+            cams.append({"image": f["name"], "t": f.get("t"), "position": [m[0][3], m[1][3], m[2][3]],
+                         "rotation_matrix_row_major": [-m[0][0], -m[0][1], m[0][2], -m[1][0], -m[1][1], m[1][2], -m[2][0], -m[2][1], m[2][2]]})
+        (dest / "views.json").write_text(json.dumps({"cameras": cams}))
+        meta["views"] = "views.json"
+    thumbs = package / man["scene"].get("thumbs", "_none_")
+    if thumbs.is_dir():
+        shutil.copytree(thumbs, dest / "photos", dirs_exist_ok=True)
+    (dest / "scene.json").write_text(json.dumps(meta, indent=1, ensure_ascii=False))
+    if not (dest / "anchors.json").exists():
+        (dest / "anchors.json").write_text("[]")
+    log(f"scene {scene_id}: imported video Scene Package -> {location}")
+    return meta
+
+
 def load_all(case_dir: Path) -> list:
     out = []
     for f in sorted((case_dir / "scenes").glob("*/scene.json")) if (case_dir / "scenes").exists() else []:
