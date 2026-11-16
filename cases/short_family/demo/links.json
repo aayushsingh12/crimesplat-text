@@ -1,0 +1,26 @@
+{
+  "tag": "[for demo purposes]",
+  "note": "Everything in this file was written by hand to show how a 3D scene connects to the case graph. None of it comes from the case file. The scene is a staged forensic room (Galanakis 2021), not the Short residence.",
+  "date": "August 15, 2002",
+  "event_title": "3D scene linked to the case [for demo purposes]",
+  "claims": [
+    {"s": "Bedroom of the Short residence [for demo purposes]", "s_type": "LOCATION", "p": "LOCATED_AT", "o": "Short residence", "o_type": "LOCATION",
+     "text": "The reconstructed room is treated as a bedroom of the Short residence."},
+    {"s": "Body in 3D scene [for demo purposes]", "s_type": "OBJECT", "p": "IDENTIFIED_AS", "o": "Michael Short", "o_type": "PERSON",
+     "text": "The body (a mannequin) lying on the floor of the reconstructed room is treated as Michael Short."},
+    {"s": "Michael Short", "s_type": "PERSON", "p": "FOUND_AT", "o": "Bedroom of the Short residence [for demo purposes]", "o_type": "LOCATION",
+     "text": "Michael Short is treated as having been found on the floor of this room."},
+    {"s": "Blood stains in 3D scene [for demo purposes]", "s_type": "OBJECT", "p": "FOUND_AT", "o": "Bedroom of the Short residence [for demo purposes]", "o_type": "LOCATION",
+     "text": "Blood stain sheets lie on the floor around the body in the reconstructed room."},
+    {"s": "Blood stains in 3D scene [for demo purposes]", "s_type": "OBJECT", "p": "OTHER", "p_text": "treated as caused by", "o": ".22-caliber pistol", "o_type": "WEAPON",
+     "text": "The blood stains are treated as coming from wounds made with the .22-caliber pistol named in the case file."},
+    {"s": "Bloody footprint in 3D scene [for demo purposes]", "s_type": "OBJECT", "p": "FOUND_AT", "o": "Bedroom of the Short residence [for demo purposes]", "o_type": "LOCATION",
+     "text": "A bloody footprint card lies on the floor of the reconstructed room."},
+    {"s": "Bloody footprint in 3D scene [for demo purposes]", "s_type": "OBJECT", "p": "OTHER", "p_text": "treated as left by", "o": "unidentified person or persons responsible", "o_type": "PERSON",
+     "text": "The bloody footprint is treated as left by the unidentified person or persons responsible."},
+    {"s": "Michael Short", "s_type": "PERSON", "p": "WORE", "o": "Shoe in 3D scene [for demo purposes]", "o_type": "OBJECT",
+     "text": "The shoe on the body in the reconstructed room is treated as worn by Michael Short."},
+    {"s": "Evidence markers in 3D scene [for demo purposes]", "s_type": "OBJECT", "p": "FOUND_AT", "o": "Bedroom of the Short residence [for demo purposes]", "o_type": "LOCATION",
+     "text": "Numbered evidence markers are placed on the floor of the reconstructed room."}
+  ]
+}
