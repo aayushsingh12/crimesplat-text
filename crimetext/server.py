@@ -10,7 +10,7 @@ import json
 import urllib.parse
 from pathlib import Path
 
-from . import casework, extract, fuse, imagepipe, ingest, review, scenes, videopipe
+from . import extract, fuse, imagepipe, ingest, review, scenes, videopipe
 
 ROOT = Path(__file__).resolve().parent.parent
 IMG = (".jpg", ".jpeg", ".png", ".webp")
@@ -53,8 +53,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 return self._json(scenes.query(self.case_dir, q.get("scene", ""), q.get("text", "")))
             if url.path == "/api/image_pipeline":
                 return self._json(imagepipe.status(self.case_dir, q.get("scene", "")))
-            if url.path == "/api/casework":
-                return self._json(casework.load(self.case_dir))
             if url.path == "/api/video":
                 return self._json(videopipe.status(self.case_dir))
         except Exception as e:
@@ -104,8 +102,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     out = {"log": done}
                 elif url.path == "/api/rebuild":
                     out = {}
-                elif url.path == "/api/casework":
-                    out, rebuild = casework.save(c, body["kind"], body["items"], body.get("who", ""), body.get("what", "")), False
                 elif url.path == "/api/video/run":
                     out, rebuild = videopipe.run(c, body["file"], body.get("footage", "handheld"), body.get("location", ""), body.get("title", "")), False
                 elif url.path == "/api/image_pipeline/run":

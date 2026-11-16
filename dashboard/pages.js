@@ -7,7 +7,7 @@ window.addEventListener("desk-ready", () => {
   const pendingN = () => B.claims.filter((c) => D.status(c) === "pending").length;
 
   // ---------- navigation ----------
-  const pages = ["home", "file", "investigate", "analysis", "work", "image", "video"];
+  const pages = ["home", "file", "investigate", "analysis", "image", "video"];
   function nav(page, keepHash) {
     if (!pages.includes(page)) page = "home";
     pages.forEach((p) => { $("#page-" + p).classList.toggle("on", p === page); $(`#nav [data-page=${p}]`).classList.toggle("on", p === page); });
@@ -17,7 +17,6 @@ window.addEventListener("desk-ready", () => {
     if (page === "image") renderImage();
     if (page === "video") renderVideo();
     if (page === "analysis") window.__renderAnalysis?.();
-    if (page === "work") window.__renderWork?.();
     if (page === "investigate") window.dispatchEvent(new Event("resize"));
     $("#search").classList.toggle("hidden", page !== "investigate");
   }
