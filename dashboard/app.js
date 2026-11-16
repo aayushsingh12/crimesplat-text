@@ -29,14 +29,24 @@
   const incident = (B.case.incident_window || []).length === 2
     ? [T(B.case.incident_window[0]) - 3 * DAY, T(B.case.incident_window[1]) + 3 * DAY] : full;
 
+  // ---- human review: a claim is rejected, accepted, pending (below threshold) or auto (above it)
+  let THRESH = B.review?.threshold ?? 0.7;
+  const status = (c) => c.demo ? "demo" : c.review?.decision || (c.conf < THRESH ? "pending" : "auto");
+  const confColor = (v) => d3.interpolateRgbBasis(["#f0625a", "#f0a63a", "#62c58c"])(Math.max(0, Math.min(1, (v - 0.2) / 0.7)));
+  const normName = (s) => String(s).toLowerCase().replace(/[\u2018\u2019]/g, "'").trim();
+  const byName = new Map(); B.entities.forEach((e) => [e.name, ...e.aliases].forEach((n) => byName.has(normName(n)) || byName.set(normName(n), e)));
+  const SCENES = B.scenes || [];
+  const sceneOf = (e) => SCENES.find((sc) => byName.get(normName(sc.location))?.id === e.id);
+  const anchorOf = (e) => { for (const sc of SCENES) { const a = (sc.anchors || []).find((x) => byName.get(normName(x.entity))?.id === e.id); if (a) return { sc, a }; } return null; };
+
   const S = {
     t: T((B.case.incident_window || [TIMED[0].time.start.slice(0, 10)])[0] + "T12:00"),
     view: incident.slice(), mode: "event", sel: null, focus: null, pin: null,
-    hiddenTypes: new Set(), solo: null, playing: null,
+    hiddenTypes: new Set(), solo: null, playing: null, confirmedOnly: false, hideDemo: false, view3d: false, rvFilter: "pending",
   };
 
   $("#case-title").textContent = B.case.title;
-  $("#stats").textContent = `${B.stats.claims} grounded claims · ${B.stats.entities} entities · ${B.stats.events} events · ${B.stats.passages_with_claims}/${B.stats.passages} passages · ${B.stats.photos} photos`;
+  $("#stats").textContent = `${B.stats.claims} grounded claims · ${B.stats.entities} entities · ${B.stats.events} events · ${B.stats.passages_with_claims}/${B.stats.passages} passages · ${B.stats.photos} photos${SCENES.length ? " · " + SCENES.length + " 3D scene" : ""}`;
   document.title = "Case Desk · " + B.case.title;
 
   // ---------- what is on stage ----------
@@ -47,7 +57,10 @@
     const min = d3.min(hit, (v) => v.t1 - v.t0);
     return hit.filter((v) => v.t1 - v.t0 <= Math.max(min * 3, 2 * DAY));
   }
-  function stageClaims() {
+  function stageClaims() {      // rejected claims never reach the stage; unreviewed ones can be hidden
+    return rawStageClaims().filter((c) => { const st = status(c); return st !== "rejected" && !(S.confirmedOnly && st === "pending") && !(S.hideDemo && st === "demo"); });
+  }
+  function rawStageClaims() {
     if (S.mode === "focus" && S.focus) return claimsOf.get(S.focus) || [];
     if (S.mode === "cumulative") return B.claims.filter((c) => c.time && c.t0 <= S.t);
     const ids = new Set();
@@ -72,6 +85,7 @@
   function fit(animate) {
     if (!NODES.length || userZoomed) return;
     const { width, height } = svg.node().getBoundingClientRect();
+    if (!width || !height) return;                 // page hidden
     const x0 = d3.min(NODES, (d) => d.x) - 70, x1 = d3.max(NODES, (d) => d.x) + 70, y0 = d3.min(NODES, (d) => d.y) - 40, y1 = d3.max(NODES, (d) => d.y) + 60;
     const k = Math.min(1.4, 0.95 * Math.min(width / (x1 - x0), height / (y1 - y0)));
     const tr = d3.zoomIdentity.translate(width / 2 - k * (x0 + x1) / 2, height / 2 - k * (y0 + y1) / 2).scale(k);
@@ -100,7 +114,8 @@
       const k = c.s + ">" + c.o;
       (links.get(k) || links.set(k, { id: k, source: c.s, target: c.o, claims: [] }).get(k)).claims.push(c);
     }
-    const { width, height } = svg.node().getBoundingClientRect();
+    let { width, height } = svg.node().getBoundingClientRect();
+    if (!width) { width = 900; height = 500; }
     NODES = [...nodes.values()].map((n) => {
       const p = pos.get(n.id) || { x: width / 2 + (Math.random() - 0.5) * 260, y: height / 2 + (Math.random() - 0.5) * 200 };
       pos.set(n.id, p);
@@ -121,11 +136,11 @@
       g.append("text").attr("dy", -3);
       g.on("click", (ev, d) => { ev.stopPropagation(); select({ type: "edge", id: d.id }); });
       return g;
-    }).attr("class", (d) => "edge " + d.cert);
+    }).attr("class", (d) => "edge " + d.cert + (d.claims.some((c) => status(c) === "pending") ? " pending" : "") + (d.claims.every((c) => c.demo) ? " demo" : ""));
     gEdge.select("text").text((d) => d.label);
 
     gNode = gNodes.selectAll("g.node").data(NODES, (d) => d.id).join((en) => {
-      const g = en.append("g").attr("class", "node");
+      const g = en.append("g").attr("class", (d) => "node" + (d.e.demo ? " demo" : ""));
       g.append("g").attr("class", "shape-wrap");
       g.append("text").attr("class", "name").attr("text-anchor", "middle");
       g.append("text").attr("class", "attr").attr("text-anchor", "middle");
@@ -145,7 +160,7 @@
       g.select(".name").attr("y", d.r + 13).text(d.e.name.length > 30 ? d.e.name.slice(0, 29) + "…" : d.e.name);
       const a = [...new Set(d.attrs.map((c) => c.literal))];
       const line = a.slice(0, 2).map((x) => (x.length > 26 ? x.slice(0, 25) + "…" : x)).join(" · ") + (a.length > 2 ? ` +${a.length - 2}` : "");
-      g.select(".attr").attr("y", d.r + 25).text(line);
+      g.select(".attr").attr("y", d.r + 25).text(sceneOf(d.e) ? "▣ 3D scene attached" + (line ? " · " + line : "") : line);
     });
     sim.nodes(NODES); sim.force("link").links(LINKS);
     sim.force("x", d3.forceX(width / 2).strength(0.05)).force("y", d3.forceY(height / 2).strength(0.07));
@@ -153,7 +168,7 @@
     clearTimeout(buildGraph.t); buildGraph.t = setTimeout(() => fit(true), 500);
 
     const empty = $("#empty");
-    empty.classList.toggle("hidden", NODES.length > 0);
+    empty.classList.toggle("hidden", NODES.length > 0 || S.view3d);
     if (!NODES.length) {
       const nx = TIMED.find((v) => v.t0 > S.t), pv = [...TIMED].reverse().find((v) => v.t1 < S.t);
       empty.innerHTML = S.mode === "focus" ? "Select an entity to see every claim about it." :
@@ -165,6 +180,11 @@
     [...types].sort().forEach((t) => f.append("span").attr("class", "chip" + (S.hiddenTypes.has(t) ? " off" : ""))
       .html(`<span class="kind" style="background:${color(t)}"></span>${t.toLowerCase()}`)
       .on("click", () => { S.hiddenTypes.has(t) ? S.hiddenTypes.delete(t) : S.hiddenTypes.add(t); buildGraph(); }));
+    if (B.stats.demo_claims) f.append("span").attr("class", "chip" + (S.hideDemo ? " on" : "")).attr("title", "Hand-written links between the 3D scene and the case. Not from the case file.")
+      .text("hide demo links").on("click", () => { S.hideDemo = !S.hideDemo; buildGraph(); });
+    f.append("span").attr("class", "chip" + (S.confirmedOnly ? " on" : "")).attr("title", "Hide claims that are below the confidence threshold and not yet accepted by a person")
+      .text("reviewed or confident only").on("click", () => { S.confirmedOnly = !S.confirmedOnly; buildGraph(); });
+    window.SceneView?.ready && window.SceneView.setActive(new Set(NODES.map((n) => n.id)), S.sel?.type === "entity" ? S.sel.id : null);
     f.append("span").attr("class", "meta").style("margin-left", "8px")
       .text(`${NODES.length} entities · ${claims.length} claims${note ? " · " + note : ""}`);
     paintSelection();
@@ -195,10 +215,11 @@
   const typeTag = (t) => `<span class="tag" style="background:${color(t)}">${esc(t.toLowerCase())}</span>`;
   const whenText = (c) => !c.time ? "undated" : (c.time.precision === "minute" ? fmtMin(c.t0) : c.t1 - c.t0 < 1.5 * DAY ? fmtDay(c.t0) : `${fmtDay(c.t0)} – ${fmtDay(c.t1)}`);
   function claimCard(c, on) {
-    return `<div class="claim${on ? " on" : ""}" data-claim="${c.id}">
+    const st = status(c);
+    return `<div class="claim${on ? " on" : ""} ${st}" data-claim="${c.id}">
       <div class="triple">${entLink(c.s)} <span class="p">— ${esc(predLabel(c))} →</span> ${c.o ? entLink(c.o) : esc(c.literal)}</div>
       <div class="quote">“${esc(c.quote)}”</div>
-      <div class="meta"><span class="cert ${c.certainty}">${c.certainty}</span> ${esc(whenText(c))}${c.by ? ` · according to <b>${esc(E.get(c.by).name)}</b>` : ""} · ${c.pid}</div></div>`;
+      <div class="meta"><span class="conf" style="background:${confColor(c.conf)}" title="confidence">${c.conf.toFixed(2)}</span> <span class="st ${st}">${st === "auto" ? "not reviewed" : st === "demo" ? "for demo purposes" : st}</span> <span class="cert ${c.certainty}">${c.certainty}</span> ${esc(whenText(c))}${c.by ? ` · according to <b>${esc(E.get(c.by).name)}</b>` : ""} · ${c.pid}</div></div>`;
   }
   function markQuotes(text, quotes) {
     const n1 = (s) => s.toLowerCase().replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[–—]/g, "-").replace(/ /g, " ");
@@ -230,9 +251,9 @@
       const e = E.get(sel.id), all = (claimsOf.get(e.id) || []).slice().sort(byTime), on = new Set(stageClaims().map((c) => c.id));
       const attrs = all.filter((c) => c.s === e.id && !c.o);
       const now = all.filter((c) => on.has(c.id) && c.o);
-      el.innerHTML = `<h2>${esc(e.name)}</h2><div>${typeTag(e.type)}<span class="meta">${e.kind === "stuff" ? "place / setting" : "tracked instance"} · ${all.length} claims</span></div>
+      el.innerHTML = `<h2>${esc(e.name)}</h2>${e.demo ? '<div class="banner">Created for demo purposes. This entity is not in the case file. It was added by hand to show how the 3D scene connects to the graph.</div>' : ""}<div>${typeTag(e.type)}<span class="meta">${e.kind === "stuff" ? "place / setting" : "tracked instance"} · ${all.length} claims</span></div>
         ${e.aliases.length ? `<div class="meta" style="margin-top:6px">Also called: ${e.aliases.map(esc).join(", ")}</div>` : ""}
-        <div style="margin-top:8px"><button data-focus="${e.id}">Show every claim about this entity</button></div>
+        <div class="btns"><button data-focus="${e.id}">Show every claim about this entity</button>${sceneButtons(e)}</div>
         ${e.photos.length ? "<h3>Photos</h3>" + photoThumbs(e.photos) : ""}
         ${attrs.length ? `<h3>Described as (${attrs.length})</h3>` + attrs.map((c) => claimCard(c)).join("") : ""}
         ${now.length ? `<h3>On stage now (${now.length})</h3>` + now.map((c) => claimCard(c)).join("") : ""}
@@ -249,6 +270,7 @@
       el.innerHTML = `<h3 style="margin-top:0">Claim ${c.id}</h3>${claimCard(c, true)}
         <div class="kv">Time: <b>${esc(whenText(c))}</b>${c.time ? ` (${esc(c.time.precision)}, from the ${c.time.from === "claim" ? "passage wording “" + esc(c.time.text) + "”" : "date heading"})` : ""}</div>
         <div class="kv">Wording: <b>${c.certainty}</b>${c.by ? ` · attributed to ${entLink(c.by)}` : " · no named source in the passage"}</div>
+        <h3>Review</h3>${reviewBlock(c)}
         <h3>Where this comes from</h3>${sourceBlock(p, [c.quote])}
         <h3>Other claims from the same passage</h3>${(passageClaims.get(c.pid) || []).filter((x) => x.id !== c.id).map((x) => claimCard(x)).join("") || '<div class="meta">none</div>'}
         ${c.events.length ? "<h3>Part of</h3>" + c.events.map((id) => `<div class="row" data-event="${id}"><span class="kind" style="background:${css("--k-" + V.get(id).kind)}"></span>${esc(V.get(id).title)}</div>`).join("") : ""}`;
@@ -267,6 +289,49 @@
     el.scrollTop = 0;
   }
   const span = (v) => !v.time ? "undated section of the case file" : v.t1 - v.t0 < 1.5 * DAY ? fmtDay(v.t0) : fmtDay(v.t0) + " – " + fmtDay(v.t1);
+  function sceneButtons(e) {
+    if (!SCENES.length) return "";
+    const sc = sceneOf(e), an = anchorOf(e);
+    return (sc ? `<button data-scene="${esc(sc.id)}">Open 3D scene of this place</button>` : "") +
+      (an ? `<button data-scene="${esc(an.sc.id)}" data-fly="${e.id}">Show pin in 3D scene</button><button data-unpin="${e.id}" data-scene2="${esc(an.sc.id)}">Remove pin</button>`
+          : `<button data-pin="${e.id}">Pin in 3D scene…</button>`);
+  }
+  function reviewBlock(c) {
+    const st = status(c), r = c.review;
+    if (c.demo) return '<div class="banner">For demo purposes. This link was written by hand and does not come from the case file. It is not scored and cannot be reviewed.</div>';
+    return `<div class="kv">Confidence <span class="conf" style="background:${confColor(c.conf)}">${c.conf.toFixed(2)}</span> · threshold ${THRESH.toFixed(2)} · <span class="st ${st}">${st === "auto" ? "above threshold, not reviewed" : st}</span></div>
+      <ul class="why">${c.conf_why.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>
+      ${r ? `<div class="meta">${esc(r.decision)} ${r.reviewer ? "by <b>" + esc(r.reviewer) + "</b> " : ""}on ${esc(r.at)}${r.note ? " · “" + esc(r.note) + "”" : ""}</div>` : ""}
+      <input id="rv-note" placeholder="Note for the record (optional)" style="width:100%;margin-top:6px" value="${esc(r?.note || "")}">
+      <div class="btns"><button class="ok" data-review="accepted" data-key="${c.id}">✓ Accept (A)</button><button class="no" data-review="rejected" data-key="${c.id}">✕ Reject (R)</button>${r ? `<button data-review="reset" data-key="${c.id}">Undo decision</button>` : ""}</div>`;
+  }
+  async function review(c, decision) {
+    const note = document.querySelector("#rv-note")?.value || "";
+    const res = await fetch("api/review", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: c.key, decision, note, reviewer: localStorage.getItem("reviewer") || "" }) });
+    const out = await res.json(); if (out.error) return alert("Could not save: " + out.error);
+    c.review = decision === "reset" ? null : out;
+    const next = decision === "reset" ? null : queue().find((x) => x.id !== c.id && status(x) === "pending");
+    buildReview(); lastKey = ""; setTime(S.t, true, false, true);
+    select(next && S.rvFilter === "pending" ? { type: "claim", id: next.id } : { type: "claim", id: c.id });
+  }
+  const queue = () => B.claims.filter((c) => !c.demo && (S.rvFilter === "all" || status(c) === S.rvFilter)).sort((a, b) => a.conf - b.conf || a.id.localeCompare(b.id));
+  function buildReview() {
+    const n = (st) => B.claims.filter((c) => status(c) === st).length, q = queue();
+    $("#review-n").textContent = n("pending") || "";
+    $("#tab-review").innerHTML = `<div class="rv-bar">
+        <select id="rv-filter">${["pending", "accepted", "rejected", "auto", "all"].map((f) => `<option value="${f}"${S.rvFilter === f ? " selected" : ""}>${f === "auto" ? "not reviewed, above threshold" : f} (${f === "all" ? B.claims.length : n(f)})</option>`).join("")}</select>
+        <label class="meta">threshold <input id="rv-th" type="range" min="0.3" max="0.95" step="0.01" value="${THRESH}"> <b id="rv-thv">${THRESH.toFixed(2)}</b></label>
+        <input id="rv-who" placeholder="Reviewer name" style="width:120px" value="${esc(localStorage.getItem("reviewer") || "")}">
+        <div class="meta">Lowest confidence first. Open a claim to read its passage, then accept or reject. Rejected claims leave the graph; every decision is logged.</div></div>` +
+      (q.slice(0, 250).map((c) => `<div class="rv-item${S.sel?.type === "claim" && S.sel.id === c.id ? " on" : ""}">${claimCard(c)}
+        <div class="btns"><button class="ok" data-review="accepted" data-key="${c.id}">✓ Accept</button><button class="no" data-review="rejected" data-key="${c.id}">✕ Reject</button>${c.review ? `<button data-review="reset" data-key="${c.id}">Undo</button>` : ""}</div></div>`).join("")
+        || '<div class="row sub">Nothing in this list.</div>');
+    $("#rv-filter").onchange = (ev) => { S.rvFilter = ev.target.value; buildReview(); };
+    $("#rv-th").oninput = (ev) => { THRESH = +ev.target.value; $("#rv-thv").textContent = THRESH.toFixed(2); };
+    $("#rv-th").onchange = () => { buildReview(); lastKey = ""; setTime(S.t, true, false, true); };
+    $("#rv-who").onchange = (ev) => localStorage.setItem("reviewer", ev.target.value.trim());
+  }
   function eventHtml(v) {
     const cl = v.claims.map((id) => C.get(id));
     const photos = v.time ? B.photos.filter((p) => p.date && p.date >= v.time.start.slice(0, 10) && p.date <= v.time.end.slice(0, 10)).map((p) => p.file) : [];
@@ -277,6 +342,10 @@
   }
   $("#inspector").addEventListener("click", (ev) => {
     const q = (a) => ev.target.closest(`[data-${a}]`)?.dataset[a];
+    if (q("review")) return review(C.get(q("key")), q("review"));
+    if (q("scene")) return openScene(q("scene"), q("fly"));
+    if (q("pin")) return placePin(q("pin"));
+    if (q("unpin")) return savePin(q("scene2"), E.get(q("unpin")), null, true);
     if (q("photo") && ev.target.tagName === "IMG") return lightbox(q("photo"));
     if (q("focus")) return focusEntity(q("focus"));
     if (q("goto")) return setTime(+q("goto"));
@@ -311,8 +380,10 @@
   }
   $("#left").addEventListener("click", (ev) => {
     const q = (a) => ev.target.closest(`[data-${a}]`)?.dataset[a];
-    if (ev.target.tagName === "A") return;
-    if (q("event")) gotoEvent(V.get(q("event")));
+    if (ev.target.tagName === "A" || ["INPUT", "SELECT", "LABEL"].includes(ev.target.tagName)) return;
+    if (q("review")) review(C.get(q("key")), q("review"));
+    else if (q("claim")) { const c = C.get(q("claim")); if (c.time) setTime((c.t0 + c.t1) / 2, true); select({ type: "claim", id: c.id }); }
+    else if (q("event")) gotoEvent(V.get(q("event")));
     else if (q("passage")) { const p = P.get(q("passage")); if (p.time) setTime(T(p.time.start) + 12 * 36e5, true); select({ type: "passage", id: p.id }); }
     else if (q("photo")) select({ type: "photo", id: q("photo") });
     else if (q("ent")) select({ type: "entity", id: q("ent") });
@@ -448,7 +519,11 @@
       syncLeft(!scrubbing);
     } else { drawPlayhead(); drawOverview(); }
   }
-  function select(sel) { S.sel = sel; paintSelection(); renderInspector(); syncLeft(false); }
+  function select(sel) {
+    S.sel = sel; paintSelection(); renderInspector(); syncLeft(false);
+    document.querySelectorAll("#tab-review .rv-item").forEach((r) => r.classList.toggle("on", sel?.type === "claim" && r.querySelector("[data-claim]")?.dataset.claim === sel.id));
+    window.SceneView?.ready && window.SceneView.setActive(new Set(NODES.map((n) => n.id)), sel?.type === "entity" ? sel.id : null);
+  }
   function gotoEvent(v) {
     if (S.mode === "focus") setMode("event");
     S.solo = v.id; S.sel = { type: "event", id: v.id };
@@ -480,9 +555,52 @@
   $("#play").onclick = () => play(!S.playing); $("#speed").onchange = () => S.playing && play(true);
   $("#fit-all").onclick = () => setView(full.slice()); $("#fit-incident").onclick = () => setView(incident.slice());
   window.addEventListener("keydown", (ev) => {
-    if (ev.target.tagName === "INPUT") return;
+    if (["INPUT", "SELECT"].includes(ev.target.tagName)) return;
     if (ev.key === " ") { ev.preventDefault(); play(!S.playing); } else if (ev.key === "]" || ev.key === "ArrowRight") step(1);
     else if (ev.key === "[" || ev.key === "ArrowLeft") step(-1); else if (ev.key === "Escape") { $("#lightbox").classList.add("hidden"); select(null); }
+  });
+
+  // ---------- 3D scene ----------
+  let sceneLoading = null;
+  const sceneHooks = {
+    resolve: (name) => byName.get(normName(name)),
+    onPick: (eid) => { if (!$("#page-investigate").classList.contains("on")) { window.__nav("investigate"); openScene(); } select({ type: "entity", id: eid }); },
+    onPlace: (sceneId, ent, xyz) => savePin(sceneId, ent, xyz, false),
+    lightbox: (src, cap) => { const lb = $("#lightbox"); lb.querySelector("img").src = src; lb.querySelector(".cap").textContent = cap; lb.classList.remove("hidden"); },
+  };
+  async function openScene(id, flyId) {
+    const sc = SCENES.find((x) => x.id === id) || SCENES[0]; if (!sc) return;
+    S.view3d = true;
+    document.querySelectorAll("#viewsel button").forEach((b) => b.classList.toggle("on", b.dataset.view === "scene3d"));
+    $("#graph").classList.add("hidden"); $("#legend").classList.add("hidden"); $("#empty").classList.add("hidden");
+    $("#scene-host-a").classList.remove("hidden"); $("#scene-host-a").appendChild($("#scene"));
+    if (!window.SceneView) { sceneLoading = sceneLoading || import("./scene.js"); await sceneLoading; }
+    await window.SceneView.open(sc, sceneHooks);
+    window.SceneView.setActive(new Set(NODES.map((n) => n.id)), S.sel?.type === "entity" ? S.sel.id : null);
+    if (flyId) window.SceneView.flyTo(flyId);
+  }
+  function closeScene() {
+    S.view3d = false; window.SceneView?.cancelPlacing();
+    document.querySelectorAll("#viewsel button").forEach((b) => b.classList.toggle("on", b.dataset.view === "graph"));
+    $("#scene-host-a").classList.add("hidden"); $("#graph").classList.remove("hidden"); $("#legend").classList.remove("hidden"); buildGraph();
+  }
+  async function placePin(eid) { await openScene(SCENES[0].id); window.SceneView.startPlacing(E.get(eid)); }
+  async function savePin(sceneId, ent, xyz, remove) {
+    const res = await fetch("api/anchor", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ scene: sceneId, entity: ent.name, xyz, remove, placed_by: localStorage.getItem("reviewer") || "" }) });
+    const out = await res.json(); if (out.error) return alert("Could not save the pin: " + out.error);
+    const list = out.result || out, sc = SCENES.find((x) => x.id === sceneId); sc.anchors = list;
+    if (window.SceneView?.meta?.id === sceneId) window.SceneView.setPins(list);
+    select({ type: "entity", id: ent.id });
+  }
+  document.querySelectorAll("#viewsel button").forEach((b) => b.onclick = () => (b.dataset.view === "scene3d" ? openScene(SCENES[0]?.id) : closeScene()));
+  if (!SCENES.length) $("#viewsel").classList.add("hidden");
+  window.addEventListener("keydown", (ev) => {
+    if (["INPUT", "SELECT", "TEXTAREA"].includes(ev.target.tagName)) return;
+    if (ev.key === "Escape") window.SceneView?.cancelPlacing();
+    if (S.sel?.type !== "claim") return;
+    if (ev.key === "a" || ev.key === "A") review(C.get(S.sel.id), "accepted");
+    if (ev.key === "r" || ev.key === "R") review(C.get(S.sel.id), "rejected");
   });
 
   // ---------- search ----------
@@ -498,6 +616,7 @@
 
   $("#legend").innerHTML = `<span>● tracked instance</span><span>■ place / setting</span><span><i></i>stated</span><span><i style="border-top-style:dashed"></i>reported</span><span><i style="border-top-style:dotted"></i>alleged / speculated</span><span>double-click a node for all its claims</span>`;
   window.addEventListener("resize", () => { drawTimeline(); buildGraph(); });
-  buildLeft(); drawTimeline(); setTime(S.t);
-  window.__desk = { S, B, setTime, select, step, setMode, focusEntity, activeEvents, stageClaims };
+  buildLeft(); buildReview(); drawTimeline(); setTime(S.t);
+  window.__desk = { S, B, E, C, V, P, EV, claimsOf, passageClaims, esc, fmtDay, typeTag, sceneHooks, gotoEvent, SCENES, anchorOf, sceneOf, color, css, openScene, closeScene, review, status, setTime, select, step, setMode, focusEntity, activeEvents, stageClaims };
+  window.dispatchEvent(new Event("desk-ready"));
 })();
