@@ -1,0 +1,28 @@
+{
+ "id": "short_family_aria_sunroom",
+ "title": "Sunroom (Aria Scenes, video pipeline)",
+ "location": "Living room of the Short residence [for demo purposes]",
+ "note": "Reconstructed by the video pipeline from aria_sunroom.mp4 (bodycam footage).",
+ "units": "metres",
+ "up": "y",
+ "pipeline": "video (crimesplat-video: COLMAP + gsplat MCMC)",
+ "added_at": "2026-11-23T10:54:51",
+ "splat": "scene.spz",
+ "splat_sha256": "3ed3ab597d88311ebde9ea7b167a8d85bc71ff6ecb6a66c76d7aca10146ea8a4",
+ "splat_bytes": 5951606,
+ "quality": {
+  "registered_frac": 1.0,
+  "reproj_err_px": 1.119,
+  "psnr_holdout": 19.58,
+  "gaussians": 300000
+ },
+ "source_media": [
+  {
+   "id": "s0",
+   "sha256": "49a069eaa745dd65e2f3d09dae571f8158d622c72c8e50a6fcaaafe49ac1fd8e",
+   "duration_s": 69.1,
+   "fps": 10.0
+  }
+ ],
+ "views": "views.json"
+}
