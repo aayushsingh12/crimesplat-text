@@ -107,14 +107,16 @@ def build(case_dir: Path, log=print):
     demo_path, demo_claims = case_dir / "demo" / "links.json", []
     if demo_path.exists():                      # hand-written links, always labelled as such
         demo = json.loads(demo_path.read_text())
-        when = timeparse.parse(demo.get("date", "")) or {}
+        default_when = timeparse.parse(demo.get("date", "")) or {}
         evidence.append({"id": "DEMO", "kind": "demo", "title": "Demo links " + demo["tag"], "path": "demo/links.json", "note": demo["note"]})
         for i, c in enumerate(demo["claims"], 1):
+            # a claim may carry its own "date" and "event"; otherwise the file's defaults apply
+            when = timeparse.parse(c["date"]) if c.get("date") else default_when
             pid = f"x{i:04d}"
-            passages.append({"id": pid, "section": "Demo links " + demo["tag"], "subsection": None, "date_heading": demo.get("date"),
+            passages.append({"id": pid, "section": "Demo links " + demo["tag"], "subsection": None, "date_heading": c.get("date") or demo.get("date"),
                              "time": {k: when[k] for k in ("start", "end", "precision")} if when else None, "time_from": "heading",
                              "depth": 0, "text": c["text"], "bold": [], "links": [], "evidence": ["DEMO"], "demo": True})
-            demo_claims.append(c | {"pid": pid, "quote": c["text"], "certainty": "stated", "attributed_to": None, "demo": True})
+            demo_claims.append(c | {"event_title": c.get("event") or demo["event_title"], "pid": pid, "quote": c["text"], "certainty": "stated", "attributed_to": None, "demo": True})
     by_pid = {p["id"]: p for p in passages}
     ents = Entities(cfg.get("aliases", {}))
 
@@ -126,9 +128,9 @@ def build(case_dir: Path, log=print):
         raw_events += events
 
     raw_claims += demo_claims
-    if demo_claims:
-        raw_events.append({"title": demo["event_title"], "kind": "discovery", "summary": demo["note"],
-                           "pids": [c["pid"] for c in demo_claims], "demo": True})
+    for title in dict.fromkeys(c["event_title"] for c in demo_claims):
+        raw_events.append({"title": title, "kind": "discovery", "summary": demo["note"],
+                           "pids": [c["pid"] for c in demo_claims if c["event_title"] == title], "demo": True})
     # pass 1: register every entity mention, then merge name variants
     for c in raw_claims:
         c["_s"] = ents.add(c["s"], c["s_type"])
