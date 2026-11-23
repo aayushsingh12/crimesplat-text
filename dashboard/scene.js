@@ -72,6 +72,7 @@ function snap(i, quiet) {
   viewIdx = ((i % views.length) + views.length) % views.length;
   const v = views[viewIdx], { p, q } = viewPose(v);
   fly = null; camera.position.copy(p); camera.quaternion.copy(q);
+  camera.fov = v.fov_y_deg || 60; camera.updateProjectionMatrix();   // match the source frame's field of view
   controls.target.copy(p).addScaledVector(new THREE.Vector3(0, 0, -1).applyQuaternion(q), extent * 0.35);
   host.querySelectorAll("#scene-views button").forEach((b) => b.classList.toggle("on", +b.dataset.i === viewIdx));
   if (!quiet) showView(v.image);

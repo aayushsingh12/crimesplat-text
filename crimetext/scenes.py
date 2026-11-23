@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
 import shutil
 import time
@@ -107,7 +108,9 @@ def add_package(case_dir: Path, package: Path, scene_id: str, title: str, locati
         cams = []
         for f in json.loads(traj.read_text())["frames"]:
             m = f["c2w"]            # OpenCV camera-to-world -> the viewer's +Z-forward convention: R * diag(-1, -1, 1)
-            cams.append({"image": f["name"], "t": f.get("t"), "position": [m[0][3], m[1][3], m[2][3]],
+            K = f.get("K")
+            fov = round(2 * math.degrees(math.atan(f["height"] / (2 * K[1][1]))), 2) if K and f.get("height") else None
+            cams.append({"image": f["name"], "t": f.get("t"), "fov_y_deg": fov, "position": [m[0][3], m[1][3], m[2][3]],
                          "rotation_matrix_row_major": [-m[0][0], -m[0][1], m[0][2], -m[1][0], -m[1][1], m[1][2], -m[2][0], -m[2][1], m[2][2]]})
         (dest / "views.json").write_text(json.dumps({"cameras": cams}))
         meta["views"] = "views.json"
