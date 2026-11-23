@@ -1,0 +1,184 @@
+{
+ "name": "sunroom",
+ "generated": "2026-11-23 10:54",
+ "workspace": "/home/aayushsingh/Projects/crimesplat-video/workspace/short_family_aria_sunroom",
+ "video": "aria_sunroom.mp4",
+ "reference": "Aria MPS closed-loop SLAM (closed_loop_trajectory.csv)",
+ "run": {
+  "keyframes_in": 106,
+  "registered": 106,
+  "registered_frac": 1.0,
+  "reprojection_px": 1.119,
+  "points3D": 36696,
+  "camera_model": "OPENCV_FISHEYE",
+  "units": "metres",
+  "normalize_status": "ok",
+  "normalize_warnings": [],
+  "train_views": 93,
+  "holdout_views": 13,
+  "iterations": 7000,
+  "gaussians": 300000,
+  "psnr_holdout": 19.58,
+  "psnr_holdout_min": 14.08,
+  "psnr_holdout_color_corrected": 21.64,
+  "train_seconds": 789.1,
+  "peak_vram_gib": 1.13,
+  "train_resolution": [
+   960,
+   960
+  ],
+  "stage_seconds": {
+   "ingest": 0.4,
+   "frames": 55.5,
+   "masks": 9.5,
+   "sfm": 407.6,
+   "normalize": 0.2,
+   "train": 797.1,
+   "package": 9.1
+  },
+  "total_seconds": 1279.4
+ },
+ "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU (3782 MiB)",
+ "sfm": {
+  "cameras_compared": 104,
+  "reference_extent_m": 5.811,
+  "reference_path_m": 24.2,
+  "ate_m": {
+   "mean": 0.0323,
+   "median": 0.026,
+   "rmse": 0.0406,
+   "p95": 0.084,
+   "max": 0.1563
+  },
+  "ate_pct_extent": {
+   "mean": 0.56,
+   "median": 0.45,
+   "rmse": 0.7,
+   "p95": 1.45,
+   "max": 2.69
+  },
+  "ate_with_lever_arm_m": {
+   "mean": 0.023,
+   "median": 0.0157,
+   "rmse": 0.0326,
+   "p95": 0.0627,
+   "max": 0.1504
+  },
+  "lever_arm_m": [
+   -0.0441,
+   -0.0172,
+   -0.0101
+  ],
+  "lever_arm_norm_m": 0.0483,
+  "are_deg": {
+   "mean": 0.493,
+   "median": 0.374,
+   "rmse": 0.594,
+   "p95": 1.243,
+   "max": 2.009
+  },
+  "mount_rotation_deg": 92.65,
+  "rae_deg_step1": {
+   "mean": 0.361,
+   "median": 0.204,
+   "rmse": 0.536,
+   "p95": 1.309,
+   "max": 1.856
+  },
+  "rae_deg_step10": {
+   "mean": 0.402,
+   "median": 0.327,
+   "rmse": 0.526,
+   "p95": 1.078,
+   "max": 1.511
+  },
+  "rre_deg_step1": {
+   "mean": 0.548,
+   "median": 0.375,
+   "rmse": 0.704,
+   "p95": 1.507,
+   "max": 1.905
+  },
+  "rre_deg_step10": {
+   "mean": 0.689,
+   "median": 0.566,
+   "rmse": 0.806,
+   "p95": 1.469,
+   "max": 2.52
+  },
+  "sim3_scale": 0.3262
+ },
+ "normalize": {
+  "cameras_compared": 104,
+  "reference_extent_m": 5.811,
+  "reference_path_m": 24.2,
+  "ate_m": {
+   "mean": 0.0323,
+   "median": 0.026,
+   "rmse": 0.0406,
+   "p95": 0.084,
+   "max": 0.1563
+  },
+  "ate_pct_extent": {
+   "mean": 0.56,
+   "median": 0.45,
+   "rmse": 0.7,
+   "p95": 1.45,
+   "max": 2.69
+  },
+  "ate_with_lever_arm_m": {
+   "mean": 0.023,
+   "median": 0.0157,
+   "rmse": 0.0326,
+   "p95": 0.0627,
+   "max": 0.1504
+  },
+  "lever_arm_m": [
+   -0.0441,
+   -0.0172,
+   -0.0101
+  ],
+  "lever_arm_norm_m": 0.0483,
+  "are_deg": {
+   "mean": 0.493,
+   "median": 0.374,
+   "rmse": 0.594,
+   "p95": 1.243,
+   "max": 2.009
+  },
+  "mount_rotation_deg": 92.65,
+  "rae_deg_step1": {
+   "mean": 0.361,
+   "median": 0.204,
+   "rmse": 0.536,
+   "p95": 1.309,
+   "max": 1.856
+  },
+  "rae_deg_step10": {
+   "mean": 0.402,
+   "median": 0.327,
+   "rmse": 0.526,
+   "p95": 1.078,
+   "max": 1.511
+  },
+  "rre_deg_step1": {
+   "mean": 0.548,
+   "median": 0.375,
+   "rmse": 0.704,
+   "p95": 1.507,
+   "max": 1.905
+  },
+  "rre_deg_step10": {
+   "mean": 0.689,
+   "median": 0.566,
+   "rmse": 0.806,
+   "p95": 1.469,
+   "max": 2.52
+  },
+  "sim3_scale": 0.84878,
+  "up_error_deg": 3.003,
+  "scale_error_pct": 17.82,
+  "camera_height_prior_m": 1.45,
+  "implied_camera_height_m": 1.231
+ }
+}
