@@ -148,6 +148,15 @@ pipeline has written its Scene Package, the package is imported as a scene of th
 camera path as viewpoints, frame thumbnails as source views, units and quality figures. From
 then on it behaves like any other scene: pins, viewpoints, the scene picker in the investigation.
 
+### Benchmarks
+
+`benchmarks/aria_video.py` measures the video pipeline on Project Aria recordings against Aria's
+own SLAM trajectory (matched frame by frame through the timestamps stored in the Aria mp4):
+registration, reprojection error, held-out PSNR, time and VRAM, absolute trajectory error,
+rotation error, up-axis error and metric scale error. Results are written as Markdown and JSON
+to `benchmarks/results/`. The first result is `benchmarks/results/sunroom.md` (Aria Scenes
+"sunroom", 69 s of fisheye footage, RTX 3050 Laptop 4 GB).
+
 ### Demo links
 
 `cases/short_family/demo/links.json` holds hand-written links between the 3D scene and the case:
@@ -178,8 +187,10 @@ Make `cases/<name>/case.json` with `title`, `source_url`, the `timeline_section`
 - The image pipeline's requirements are not installed on the development machine, so "Run image
   pipeline" has not been run from the dashboard. The splat in the demo was built by the pipeline
   elsewhere.
-- The video connection was checked by importing an existing synthetic Scene Package and viewing
-  it. A full run started from the dashboard has not been done yet.
+- The video connection has been run end to end from the dashboard once, on the Aria sunroom
+  footage. It needed a fix in the video pipeline: fisheye cameras now get a starting focal
+  length (`fisheye_fov_deg` in its `bodycam` preset), without which COLMAP 4.2 rejects every
+  fisheye image pair.
 - Live CLIP search needs the pipeline's region index, which is not in the crime-splat repository.
 - Newspaper scans are downloaded, hashed and OCR'd for reference. Claims are extracted from the
   case page only.
