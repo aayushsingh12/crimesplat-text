@@ -1,6 +1,6 @@
 {
   "tag": "[for demo purposes]",
-  "note": "Everything in this file was written by hand to show how a 3D scene connects to the case graph. None of it comes from the case file. The scene is a staged forensic room (Galanakis 2021), not the Short residence.",
+  "note": "Everything in this file was written by hand to show how the 3D scenes connect to the case graph. None of it comes from the case file. The bedroom is a staged forensic room (Galanakis 2021) and the living room is an office sunroom (Aria Scenes); neither is the Short residence.",
   "date": "August 15, 2002",
   "event_title": "3D scene linked to the case [for demo purposes]",
   "claims": [
@@ -84,7 +84,157 @@
       "p": "LOCATED_AT",
       "o": "Short residence",
       "o_type": "LOCATION",
-      "text": "The sunroom reconstructed by the video pipeline (Aria Scenes footage) is treated as the living room of the Short residence."
+      "text": "The sunroom reconstructed by the video pipeline (Aria Scenes footage) is treated as the living room of the Short residence.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "Sofa in 3D scene [for demo purposes]",
+      "s_type": "OBJECT",
+      "p": "FOUND_AT",
+      "o": "Living room of the Short residence [for demo purposes]",
+      "o_type": "LOCATION",
+      "text": "A red sofa stands by the window wall of the reconstructed living room.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "Armchair in 3D scene [for demo purposes]",
+      "s_type": "OBJECT",
+      "p": "FOUND_AT",
+      "o": "Living room of the Short residence [for demo purposes]",
+      "o_type": "LOCATION",
+      "text": "A patterned armchair stands in the corner of the reconstructed living room.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "Coffee table in 3D scene [for demo purposes]",
+      "s_type": "OBJECT",
+      "p": "FOUND_AT",
+      "o": "Living room of the Short residence [for demo purposes]",
+      "o_type": "LOCATION",
+      "text": "A wooden coffee table stands on the rug in the middle of the reconstructed living room.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "Rug in 3D scene [for demo purposes]",
+      "s_type": "OBJECT",
+      "p": "FOUND_AT",
+      "o": "Living room of the Short residence [for demo purposes]",
+      "o_type": "LOCATION",
+      "text": "A blue rug covers the middle of the reconstructed living room floor.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "Side table in 3D scene [for demo purposes]",
+      "s_type": "OBJECT",
+      "p": "FOUND_AT",
+      "o": "Living room of the Short residence [for demo purposes]",
+      "o_type": "LOCATION",
+      "text": "A small round side table stands beside the armchair in the reconstructed living room.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "Door in 3D scene [for demo purposes]",
+      "s_type": "OBJECT",
+      "p": "FOUND_AT",
+      "o": "Living room of the Short residence [for demo purposes]",
+      "o_type": "LOCATION",
+      "text": "A door leads out of the reconstructed living room.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "Walmart receipt",
+      "s_type": "DOCUMENT",
+      "p": "FOUND_AT",
+      "o": "Coffee table in 3D scene [for demo purposes]",
+      "o_type": "OBJECT",
+      "text": "The Walmart receipt from the night of August 14 is treated as found on this coffee table.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "Mary Short’s purse",
+      "s_type": "OBJECT",
+      "p": "FOUND_AT",
+      "o": "Sofa in 3D scene [for demo purposes]",
+      "o_type": "OBJECT",
+      "text": "Mary Short's purse, with its cash still inside, is treated as found on this sofa.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "Cash and other valuables",
+      "s_type": "OBJECT",
+      "p": "FOUND_AT",
+      "o": "Side table in 3D scene [for demo purposes]",
+      "o_type": "OBJECT",
+      "text": "The cash and valuables left in the house are treated as lying on this side table, untouched.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "brown bifold wallet",
+      "s_type": "OBJECT",
+      "p": "FOUND_AT",
+      "o": "Armchair in 3D scene [for demo purposes]",
+      "o_type": "OBJECT",
+      "text": "Michael Short's brown bifold wallet is treated as found on this armchair.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "carpet sample",
+      "s_type": "OBJECT",
+      "p": "OTHER",
+      "o": "Rug in 3D scene [for demo purposes]",
+      "o_type": "OBJECT",
+      "text": "The carpet sample collected from the residence is treated as cut from this rug.",
+      "event": "Living room scene linked to the case [for demo purposes]",
+      "p_text": "treated as cut from"
+    },
+    {
+      "s": "unidentified person or persons responsible",
+      "s_type": "PERSON",
+      "p": "ENTERED",
+      "o": "Door in 3D scene [for demo purposes]",
+      "o_type": "OBJECT",
+      "text": "The person or persons responsible are treated as having entered the house through this door.",
+      "event": "Living room scene linked to the case [for demo purposes]"
+    },
+    {
+      "s": "Chris Thompson",
+      "s_type": "PERSON",
+      "p": "LOCATED_AT",
+      "o": "Living room of the Short residence [for demo purposes]",
+      "o_type": "LOCATION",
+      "text": "Chris Thompson is treated as having sat with the family in this room on the evening of August 14 before he left.",
+      "event": "Last evening in the living room [for demo purposes]",
+      "date": "August 14, 2002"
+    },
+    {
+      "s": "Michael Short",
+      "s_type": "PERSON",
+      "p": "LOCATED_AT",
+      "o": "Living room of the Short residence [for demo purposes]",
+      "o_type": "LOCATION",
+      "text": "Michael Short is treated as having been in this room on the evening of August 14.",
+      "event": "Last evening in the living room [for demo purposes]",
+      "date": "August 14, 2002"
+    },
+    {
+      "s": "Mary Short",
+      "s_type": "PERSON",
+      "p": "LOCATED_AT",
+      "o": "Living room of the Short residence [for demo purposes]",
+      "o_type": "LOCATION",
+      "text": "Mary Short is treated as having been in this room on the evening of August 14.",
+      "event": "Last evening in the living room [for demo purposes]",
+      "date": "August 14, 2002"
+    },
+    {
+      "s": "Jennifer Short",
+      "s_type": "PERSON",
+      "p": "LOCATED_AT",
+      "o": "Living room of the Short residence [for demo purposes]",
+      "o_type": "LOCATION",
+      "text": "Jennifer Short is treated as having been in this room on the evening of August 14.",
+      "event": "Last evening in the living room [for demo purposes]",
+      "date": "August 14, 2002"
     }
   ]
 }

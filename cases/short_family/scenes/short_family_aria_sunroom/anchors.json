@@ -1,1 +1,74 @@
-[]
+[
+ {
+  "entity": "Armchair in 3D scene [for demo purposes]",
+  "xyz": [
+   -0.3233,
+   0.4567,
+   -2.8397
+  ],
+  "method": "triangulated from source frames",
+  "placed_by": "setup script (demo)",
+  "at": "2026-11-23T11:09:03",
+  "demo": true
+ },
+ {
+  "entity": "Side table in 3D scene [for demo purposes]",
+  "xyz": [
+   -0.8978,
+   0.5125,
+   -3.0988
+  ],
+  "method": "triangulated from source frames",
+  "placed_by": "setup script (demo)",
+  "at": "2026-11-23T11:09:03",
+  "demo": true
+ },
+ {
+  "entity": "Coffee table in 3D scene [for demo purposes]",
+  "xyz": [
+   -2.4365,
+   0.2642,
+   -1.7558
+  ],
+  "method": "triangulated from source frames",
+  "placed_by": "setup script (demo)",
+  "at": "2026-11-23T11:09:03",
+  "demo": true
+ },
+ {
+  "entity": "Sofa in 3D scene [for demo purposes]",
+  "xyz": [
+   -2.4044,
+   0.4215,
+   -2.6563
+  ],
+  "method": "triangulated from source frames",
+  "placed_by": "setup script (demo)",
+  "at": "2026-11-23T11:09:03",
+  "demo": true
+ },
+ {
+  "entity": "Rug in 3D scene [for demo purposes]",
+  "xyz": [
+   -1.4759,
+   0.01,
+   -2.2702
+  ],
+  "method": "triangulated from source frames",
+  "placed_by": "setup script (demo)",
+  "at": "2026-11-23T11:09:03",
+  "demo": true
+ },
+ {
+  "entity": "Door in 3D scene [for demo purposes]",
+  "xyz": [
+   2.2381,
+   1.0,
+   -3.6957
+  ],
+  "method": "triangulated from source frames",
+  "placed_by": "setup script (demo)",
+  "at": "2026-11-23T11:09:03",
+  "demo": true
+ }
+]
